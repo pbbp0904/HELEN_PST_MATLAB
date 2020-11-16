@@ -1,6 +1,9 @@
 function [matrix] = file2matrix(payloadn,filen)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%Copies the flight from payload payloadn and file filen to a matrix
+%   Returns a 35 column matrix that has data0 through data31 for the first
+%   32 columns and in the last 3 pps_count, pps_time and time respectively.
+%   File numbers start at 0. Data folder names need to be flightdata<n>
+%   where <n> is the payload number. returns null if file does not exist.
     path=getfpath(payloadn,filen);
     fid=fopen(path);
     if(fid==-1)
@@ -17,9 +20,11 @@ function [matrix] = file2matrix(payloadn,filen)
         end
         data = fread(fid,[1 35],'int32');
         if(isempty(data))
+            matrix=matrix(1:(row-1),:);
             return;
         end
         if(length(data)<35)
+            matrix=matrix(1:(row-1),:);
             fprintf("File %d on payload %d is not a valid length",filen,payloadn);
             return;
         end
