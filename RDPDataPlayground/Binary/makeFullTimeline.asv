@@ -1,0 +1,15 @@
+function [binaryTimeline] = makeFullTimeline(dcc_time)
+currentSecond = 0;
+seconds = sum(dcc_time(2:end)<dcc_time(1:end-1));
+indicies = [];
+for i = 2:length(dcc_time)
+    if dcc_time(i)<dcc_time(i-1)
+        seconds = seconds + 1;
+    end
+    indicies(i-1) = seconds*50000000 + dcc_time;
+end
+
+
+binaryTimeline = sparse(indicies,ones(length(dcc_time)-1);
+end
+

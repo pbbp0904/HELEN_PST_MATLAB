@@ -1,6 +1,6 @@
-clear; clc; %close all; format long g;
+clear; clc; close all; format long g;
 
-importPath = "E:\Flight Data\Linac Test 2\CLYC FP 18\data_0";
+importPath = "E:\Flight Data\Linac Test\Rad Data 1\data_0";
 
 tic
 
@@ -42,25 +42,26 @@ end
 
 
 %Post Processing
-[lightCurve,lightCurveReal] = makeLightCurve(dcc_time,0.01);
+[lightCurve,lightCurveReal,lightCurveBest] = makeLightCurve(dcc_time,0.1);
 [peakHistA,peakHistB] = makePeakHists(pulsedata_a,pulsedata_b);
 [intHistA,intHistB] = makeIntHists(pulsedata_a,pulsedata_b);
 [PSDA,PSDB] = makePSDGraph(pulsedata_a,pulsedata_b);
 
 
 %Showing Data
+plot(smooth(lightCurveBest,1))
 figure()
-plot(smooth(lightCurve,1))
+plot(smooth(lightCurveBest,1))
 figure()
-plot(smooth(lightCurveReal,1))
+plot(smooth(lightCurveBest,1))
 figure()
-histogram(max(-pulsedata_a),150)
+plot(peakHistA)
 figure()
-histogram(max(-pulsedata_b)-min(-pulsedata_b),400)
+plot(peakHistB)
 figure()
-histogram(sum(-pulsedata_a),150)
+plot(intHistA)
 figure()
-histogram(sum(-pulsedata_b),150)
+plot(intHistB)
 figure()
 scatter(PSDA(1,:),PSDA(2,:))
 figure()
