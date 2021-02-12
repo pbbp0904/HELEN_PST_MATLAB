@@ -1,6 +1,6 @@
-clear; clc; %close all; format long g;
+clear; %clc; %close all; format long g;
 
-importPath = "E:\Flight Data\Linac Test 2\CLYC FP 18\data_0";
+importPath = "E:\Flight Data\Testing\GPS Test 6\data_0";
 
 tic
 
