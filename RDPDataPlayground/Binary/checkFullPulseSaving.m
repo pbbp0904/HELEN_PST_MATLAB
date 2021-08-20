@@ -1,6 +1,6 @@
 clear; %clc; %close all; format long g;
 
-importPath = "E:\Flight Data\Testing\GPS Test 6\data_0";
+importPath = "D:\Flight Data\Flight 2\2-Data to Process\1RED_RAD\data_0";
 
 tic
 
@@ -50,7 +50,7 @@ end
 
 %Showing Data
 figure()
-plot(smooth(lightCurve,1))
+plot(smooth(lightCurve,100))
 figure()
 plot(smooth(lightCurveReal,1))
 figure()
