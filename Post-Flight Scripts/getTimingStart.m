@@ -3,6 +3,7 @@ function [firstPulseEvent,firstPulseSecond_FPGA,firstPulseSecond_ENV] = getTimin
 clockHz = 50000000;
 
 for i = 1:length(PayloadRadData)
+    try
     pps_time = PayloadRadData{i}.pps_time;
     dcc_time = PayloadRadData{i}.dcc_time;
     gps_time = PayloadEnvData{i}.gpsTimes;
@@ -30,6 +31,8 @@ for i = 1:length(PayloadRadData)
             firstPulseSecond_ENV(i) = j;
             break;
         end
+    end
+    catch
     end
 
 end

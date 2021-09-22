@@ -5,6 +5,7 @@ PayloadEnvData = {};
 disp('Parsing Environmental Data...')
 % Load and Parse Environmental Data
 for payload = 1:length(PayloadPrefixes)
+    try
     filename = strcat(DirectoryLocation, "/", PayloadPrefixes{payload}, "_", EnvPrefix, ".TXT");
 
     % Parsing Environmental Data
@@ -168,5 +169,8 @@ for payload = 1:length(PayloadPrefixes)
     PayloadEnvData{payload}.Properties.VariableUnits = {'number', 'degrees', 'degrees', 'degrees', 'meters/second^2', 'meters/second^2', 'meters/second^2', 'degrees/second', 'degrees/second', 'degrees/second', '???', '???', '???', 'Celsius', '???', '???', '???', '???', 'number', 'date number', 'decimal latitude', 'decimal longitude', 'meters/second', 'degrees', 'meters', 'number', 'standard deviation in meters', 'standard deviation in meters', 'standard deviation in meters', 'nanoseconds', 'nanoseconds/second', 'standard deviation in nanoseconds'};
     
     fprintf('Done with %s\n', PayloadPrefixes{payload});
-end
+    catch
+        fprintf('Failed to load %s\n', PayloadPrefixes{payload});
+    end
+    end
 end
