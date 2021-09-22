@@ -1,6 +1,6 @@
 clear; clc; close all;
 tic
-DirectoryLocation = "D:/Flight Data/Flight 3/2-Data to Process";
+DirectoryLocation = "D:/Flight Data/Flight 2/2-Data to Process";
 PayloadPrefixes = {"1RED", "2GREEN", "3YELLOW", "4BLUE"};
 PayloadColors = {"Red", "Green", "Yellow", "Blue"};
 RadDetectorTypes = {"LYSO", "CLYC", "LYSO", "LYSO"};
@@ -9,7 +9,7 @@ EfmPrefix = "EFM";
 CamPrefix = "CAM";
 CamThreshold = 1;
 
-parseEnv = 1; parseRad = 1; parseEfm = 0; parseCam = 0; sumData = 1;
+parseEnv = 1; parseRad = 1; parseEfm = 0; parseCam = 0; sumData = 0;
 
 PayloadEnvData = {};
 PayloadRadData = {};
