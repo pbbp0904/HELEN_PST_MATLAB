@@ -3,6 +3,16 @@
 %load(strcat(DirectoryLocation,"Rad-Env_Data.mat"))
 %toc
 
-tic
-[firstPulseEvent,firstPulseSecond_FPGA,firstPulseSecond_ENV] = getTimingStart(PayloadRadData,PayloadEnvData);
-toc
+%A2 Rad
+%Find subsecond of pulses
+%Add missed pulses into table
+%Identify CLYC pulse tails
+
+%A2 Env
+%Convert resistances into temperatures
+
+%A3 
+%Find second of each event
+%Check for missed seconds
+%Add environmental data to radiation event table
+%Combine all payload radiation tables into 1 table
