@@ -9,7 +9,7 @@ EfmPrefix = "EFM";
 CamPrefix = "CAM";
 CamThreshold = 1;
 
-parseEnv = 1; parseRad = 0; parseEfm = 0; parseCam = 0; sumData = 0;
+parseEnv = 1; parseRad = 1; parseEfm = 0; parseCam = 0; sumData = 0;
 
 PayloadEnvData = {};
 PayloadRadData = {};
