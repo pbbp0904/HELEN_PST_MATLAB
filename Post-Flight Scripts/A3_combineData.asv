@@ -1,0 +1,16 @@
+tic
+DirectoryLocation = "D:/Flight Data/Flight 3/3-Processed Data/";
+load(strcat(DirectoryLocation,"Rad-Env_Data.mat"))
+toc
+
+%% Find subsecond of each event
+
+% Add missed events into tables
+% Identify CLYC event tails
+
+% Find second of each event
+% Check for missed seconds
+
+% Convert thermistor resistance into temperature
+% Add environmental data to radiation event table
+% Combine all payload radiation tables into 1 table

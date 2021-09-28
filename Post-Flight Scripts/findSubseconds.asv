@@ -1,0 +1,17 @@
+function [PayloadRadData] = findSubseconds(PayloadRadData)
+%findSubseconds Summary of this function goes here
+%   Detailed explanation goes here
+
+for i = 1:length(PayloadRadData)
+    subSeconds = [];
+    for j = 1:length(PayloadRadData{i}.dcc_time)
+        dcc_time = PayloadRadData{i}.dcc_time(j);
+        if dcc_time > pps_time
+            subSeconds(j) = dcc_time
+        else
+        end
+    end
+end
+
+end
+
