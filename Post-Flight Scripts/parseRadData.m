@@ -66,6 +66,6 @@ for payload = 1:length(PayloadPrefixes)
 end
 fprintf('Finishing Up\n');
 PayloadRadData = findSubSeconds(PayloadRadData);
-PayloadRadData = addMissingPulses(PayloadRadData);
+PayloadRadData = addMissedPulses(PayloadRadData);
 end
 

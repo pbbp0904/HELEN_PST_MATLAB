@@ -3,9 +3,8 @@
 %load(strcat(DirectoryLocation,"Rad-Env_Data.mat"))
 %toc
 
+%% Todo
 %A2 Rad
-%Find subsecond of pulses
-%Add missed pulses into table
 %Identify CLYC pulse tails
 
 %A2 Env
