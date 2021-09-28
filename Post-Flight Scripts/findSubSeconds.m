@@ -1,4 +1,4 @@
-function [PayloadRadData] = findSubseconds(PayloadRadData)
+function [PayloadRadData] = findSubSeconds(PayloadRadData)
 %findSubseconds Summary of this function goes here
 %   Detailed explanation goes here
 
