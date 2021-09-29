@@ -172,5 +172,5 @@ for payload = 1:length(PayloadPrefixes)
     catch
         fprintf('Failed to load %s\n', PayloadPrefixes{payload});
     end
-    end
+end
 end
