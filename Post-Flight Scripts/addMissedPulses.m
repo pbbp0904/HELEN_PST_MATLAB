@@ -6,7 +6,7 @@ for i = 1:length(PayloadRadData)
    if ~isempty(missingPulses)
        NaNs1 = NaN(length(missingPulses),1);
        NaNs2 = NaN(length(missingPulses),32);
-       missingPulseTable = table(NaNs1, NaNs1, NaNs1, missingPulses', NaNs1, NaNs2, NaNs2, NaNs1, 'VariableNames', PayloadRadData{i}.Properties.VariableNames);
+       missingPulseTable = table(NaNs1, NaNs1, NaNs1, missingPulses', NaNs1, NaNs2, NaNs2, NaNs1, NaNs1, 'VariableNames', PayloadRadData{i}.Properties.VariableNames);
        PayloadRadData{i} = [PayloadRadData{i};missingPulseTable];
        PayloadRadData{i} = sortrows(PayloadRadData{i}, "pulse_num");
    end
