@@ -66,8 +66,6 @@ for payload = 1:length(PayloadPrefixes)
 end
 fprintf('Finding Subsecond Values...\n');
 PayloadRadData = findSubSeconds(PayloadRadData);
-fprintf('Finding Pulse Tails and Events...\n');
-PayloadRadData = isTailEvent(PayloadRadData);
 fprintf('Adding in Missed Pulses...\n');
 PayloadRadData = addMissedPulses(PayloadRadData);
 fprintf('Radiation Data Parsing Complete!\n');

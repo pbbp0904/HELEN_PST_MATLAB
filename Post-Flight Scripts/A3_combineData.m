@@ -5,13 +5,14 @@
 
 %% Todo
 %A2 Rad
-%Identify CLYC pulse tails
 
 %A2 Env
 %Convert resistances into temperatures
 
-%A3 
+%A3
 %Find second of each event
 %Check for missed seconds
 %Add environmental data to radiation event table
 %Combine all payload radiation tables into 1 table
+
+%
