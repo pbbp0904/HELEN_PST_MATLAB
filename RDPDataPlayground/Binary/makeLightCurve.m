@@ -1,29 +1,60 @@
-function [lightCurve,lightCurveReal] = makeLightCurve(dcc_time,timeBinSize)
+function [lightCurve] = makeLightCurve(PayloadRadData,payloadNumber,timeBinSize,minHeight,maxHeight,filterTails)
 
-clockHz = 50000000;
-
-%Inverse Time Difference
-lightCurveReal = clockHz./mod(dcc_time(2:end)-dcc_time(1:end-1),clockHz);
+subSecondTimes = PayloadRadData{payloadNumber}.subSecond;
+pulsedata_b = PayloadRadData{payloadNumber}.pulsedata_b;
+isTail = PayloadRadData{payloadNumber}.isTail;
 
 % Windowed Counts
-second = 0;
-tempPulseData = [];
+
+tempCounts = 0;
 lightCurve = [];
-temp_time = 0;
-j = 1;
-for i = 2:length(dcc_time)
-    if dcc_time(i)<dcc_time(i-1) || dcc_time(i) > clockHz*timeBinSize + temp_time
-        j = 1;
-        lightCurve(second+1) = sum(sum(tempPulseData));
+bin = 1;
+binStart = 0;
+binEnd = timeBinSize;
+i = 1;
+c = 0;
+while i <= length(subSecondTimes)
+    % Bin change
+    if subSecondTimes(i) > binEnd && binEnd > binStart
         
-        second = second + 1;
-        tempPulseData = [];
-        temp_time = dcc_time(i);
+        if tempCounts < 1
+            disp(i)
+            disp(bin)
+        end
+        
+        lightCurve(bin) = tempCounts;
+        tempCounts = 0;
+        binStart = binEnd;
+        binEnd = round(mod(binEnd + timeBinSize,1),8);
+        bin = bin + 1;
+        
+        continue
+    elseif subSecondTimes(i) > binEnd && subSecondTimes(i) < binStart && binEnd < binStart
+        lightCurve(bin) = tempCounts;
+        tempCounts = 0;
+        binStart = binEnd;
+        binEnd = round(mod(binEnd + timeBinSize,1),8);
+        bin = bin + 1;
+        continue
+    elseif subSecondTimes(i) < binEnd && subSecondTimes(i) < binStart
+        lightCurve(bin) = tempCounts;
+        tempCounts = 0;
+        binStart = binEnd;
+        binEnd = round(mod(binEnd + timeBinSize,1),8);
+        bin = bin + 1;
+        continue
     end
-    tempPulseData(:,j) = 1;
-    j = j + 1;
+    
+    % Add count
+    if max(abs(pulsedata_b(i,:))) > minHeight && max(abs(pulsedata_b(i,:))) < maxHeight
+        if ~isTail(i) && filterTails
+            tempCounts = tempCounts + 1;
+        end
+    end
+    i = i + 1;
+    
+
 end
 
 
 end
-

@@ -4,15 +4,14 @@
 %toc
 
 %% Todo
-%A2 Rad
-
-%A2 Env
-%Convert resistances into temperatures
 
 %A3
-%Find second of each event
 %Check for missed seconds
-%Add environmental data to radiation event table
+%Add UTC time column to RAD data table
+%Add ENV data to each RAD data table
 %Combine all payload radiation tables into 1 table
 
-%
+%%
+
+mergedDataTables = mergeRadEnvData(PayloadRadData, PayloadEnvData);
+CombinedData = combinePayloadData(mergedDataTables);

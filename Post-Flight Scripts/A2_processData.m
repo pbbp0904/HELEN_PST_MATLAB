@@ -1,6 +1,6 @@
 clear; clc; close all;
 tic
-DirectoryLocation = "C:\Users\xcoza\OneDrive\Documents\MATLAB\HELEN Data\Flight 2";
+DirectoryLocation = "D:\Flight Data\Testing\Startup Test\Blue Test 1";
 PayloadPrefixes = {"1RED", "2GREEN", "3YELLOW", "4BLUE"};
 PayloadColors = {"Red", "Green", "Yellow", "Blue"};
 RadDetectorTypes = {"LYSO", "CLYC", "LYSO", "LYSO"};
@@ -9,7 +9,12 @@ EfmPrefix = "EFM";
 CamPrefix = "CAM";
 CamThreshold = 1;
 
-parseEnv = 1; parseRad = 1; parseEfm = 0; parseCam = 0; sumData = 0;
+%% Todo
+%A2 Env
+%Convert resistances into temperatures
+%%
+
+parseEnv = 0; parseRad = 1; parseEfm = 0; parseCam = 0; sumData = 0;
 
 PayloadEnvData = {};
 PayloadRadData = {};
