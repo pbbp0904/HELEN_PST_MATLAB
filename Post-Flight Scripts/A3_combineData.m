@@ -14,4 +14,4 @@
 %%
 
 mergedDataTables = mergeRadEnvData(PayloadRadData, PayloadEnvData);
-CombinedData = combinePayloadData(mergedDataTables);
+FlightData = combinePayloadData(mergedDataTables);
