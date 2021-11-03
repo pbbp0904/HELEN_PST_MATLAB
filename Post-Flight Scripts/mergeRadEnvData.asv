@@ -38,8 +38,7 @@ for i = 2:2:4
         EnvDataInterp(:,m) = interp1(x,v,xq);
     end
 
-    PayloadRadData{i}.PacketNum = EnvDataInterp(:,1);
-    
+    Payload
     
     
 end
