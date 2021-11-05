@@ -19,9 +19,8 @@ fprintf('Projecting GPS Time...\n');
 PayloadEnvData = projectBackTime(PayloadEnvData);
 
 mergedDataTables = mergeRadEnvData(PayloadRadData, PayloadEnvData);
-clearvars -except mergedDataTables
 FlightData = combinePayloadData(mergedDataTables);
-clearvars -except FlightData
+clearvars -ecep
 FlightData = sortrows(FlightData,'gpsTimes');
 disp('Done Combining Data!')
 toc

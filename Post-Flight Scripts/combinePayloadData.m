@@ -1,9 +1,18 @@
 function [FlightData] = combinePayloadData(mergedDataTables)
 
-FlightData = mergedDataTables{1};
+disp('Merging Payload Data...')
 
-for i = 2:length(mergedDataTables)
-    FlightData = [FlightData; mergedDataTables{i}];
+FlightData = [];
+
+for i = 1:length(mergedDataTables)
+    fprintf('Merging Payload %i Data...\n',i)
+    if height(mergedDataTables{i}) > 1
+        mergedDataTables{i}.PayloadNumber = i*ones(height(mergedDataTables{i}),1);
+        FlightData = [FlightData; mergedDataTables{i}];
+    else
+        fprintf('Not enough data for payload %i\n', i);
+    end
 end
+
 
 end

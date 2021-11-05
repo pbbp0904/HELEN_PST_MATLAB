@@ -1,14 +1,11 @@
 function [FlightData] = combinePayloadData(mergedDataTables)
 
+disp('Merging Payload Data...')
+mergedDataTables{1}.PayloadNumber = 1*
 FlightData = mergedDataTables{1};
 
 for i = 2:length(mergedDataTables)
-    join(FLight)
-    
-    
+    FlightData = [FlightData; mergedDataTables{i}];
 end
-
-
-
 
 end

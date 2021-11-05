@@ -1,6 +1,6 @@
 clear; clc; close all;
 tic
-DirectoryLocation = "D:\Flight Data\Testing\Startup Test\Blue Test 1";
+DirectoryLocation = "D:\Flight Data\Flight 3\2-Data to Process";
 PayloadPrefixes = {"1RED", "2GREEN", "3YELLOW", "4BLUE"};
 PayloadColors = {"Red", "Green", "Yellow", "Blue"};
 RadDetectorTypes = {"LYSO", "CLYC", "LYSO", "LYSO"};
@@ -14,7 +14,7 @@ CamThreshold = 1;
 %Convert resistances into temperatures
 %%
 
-parseEnv = 0; parseRad = 1; parseEfm = 0; parseCam = 0; sumData = 0;
+parseEnv = 1; parseRad = 1; parseEfm = 0; parseCam = 0; sumData = 0;
 
 PayloadEnvData = {};
 PayloadRadData = {};
