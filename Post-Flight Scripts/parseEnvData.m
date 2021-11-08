@@ -4,7 +4,7 @@ PayloadEnvData = {};
 
 disp('Parsing Environmental Data...')
 % Load and Parse Environmental Data
-for payload = 1:length(PayloadPrefixes)
+parfor payload = 1:length(PayloadPrefixes)
     try
     filename = strcat(DirectoryLocation, "/", PayloadPrefixes{payload}, "_", EnvPrefix, ".TXT");
 

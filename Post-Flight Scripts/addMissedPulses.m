@@ -1,7 +1,7 @@
 function [PayloadRadData] = addMissedPulses(PayloadRadData)
 %ADDMISSEDPULSES Summary of this function goes here
 %   Detailed explanation goes here
-for i = 1:length(PayloadRadData)
+parfor i = 1:length(PayloadRadData)
    missingPulses = setdiff(1:max(PayloadRadData{i}.pulse_num),PayloadRadData{i}.pulse_num);
    if ~isempty(missingPulses)
        NaNs1 = NaN(length(missingPulses),1);

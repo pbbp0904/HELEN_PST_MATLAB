@@ -4,7 +4,7 @@ PayloadRadData = {};
 
 disp('Parsing Radiation Data...')
 % Load and Parse Radiation Data
-for payload = 1:length(PayloadPrefixes)
+parfor payload = 1:length(PayloadPrefixes)
     dataFolder = strcat(DirectoryLocation, "/", PayloadPrefixes{payload}, "_RAD");
     dataFiles = dir(dataFolder);
     

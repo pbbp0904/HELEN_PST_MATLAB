@@ -2,7 +2,7 @@ function [mergedDataTables] = mergeRadEnvData(PayloadRadData, PayloadEnvData)
 startingRADSecond = 9; 
 
 disp('Merging Radiation and Environmental Data...')
-for i = 1:length(PayloadEnvData)
+parfor i = 1:length(PayloadEnvData)
     if height(PayloadRadData{i}) > 1 && height(PayloadEnvData{i}) > 1
         subSeconds = PayloadRadData{i}.subSecond;
         dcc_time = PayloadRadData{i}.dcc_time;
