@@ -1,6 +1,7 @@
 clear; clc; close all;
 tic
-DirectoryLocation = "D:\Flight Data\Flight 3\2-Data to Process";
+FlightFolder = "D:\Flight Data\Flight 3\";
+DirectoryLocation = strcat(FlightFolder,"2-Data to Process");
 PayloadPrefixes = {"1RED", "2GREEN", "3YELLOW", "4BLUE"};
 PayloadColors = {"Red", "Green", "Yellow", "Blue"};
 RadDetectorTypes = {"LYSO", "CLYC", "LYSO", "LYSO"};
@@ -24,11 +25,13 @@ PayloadCamData = {};
 % Load and Parse Environmental Data
 if (parseEnv)
    PayloadEnvData = parseEnvData(DirectoryLocation, PayloadPrefixes, EnvPrefix);
+   save(strcat(FlightFolder,"3-Processed Data\PayloadEnvData.mat"),'PayloadEnvData');
 end
 
 % Load and Parse Radiation Data
 if (parseRad)
     PayloadRadData = parseRadData(DirectoryLocation, PayloadPrefixes, RadDetectorTypes);
+    save(strcat(FlightFolder,"3-Processed Data\PayloadRadData.mat"),'PayloadRadData');
 end
 
 % Load and Parse EFM Data
