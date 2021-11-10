@@ -28,13 +28,17 @@ PayloadCamData = {};
 % Load and Parse Environmental Data
 if (parseEnv)
    PayloadEnvData = parseEnvData(DirectoryLocation, PayloadPrefixes, EnvPrefix);
+   fprintf('Saving Environmental Data...\n');
    save(strcat(FlightFolder,"3-Processed Data\PayloadEnvData.mat"),'PayloadEnvData');
+   fprintf('Done Saving Environmental Data!\n');
 end
 
 % Load and Parse Radiation Data
 if (parseRad)
     PayloadRadData = parseRadData(DirectoryLocation, PayloadPrefixes, RadDetectorTypes);
+    fprintf('Saving Radiation Data...\n');
     save(strcat(FlightFolder,"3-Processed Data\PayloadRadData.mat"),'PayloadRadData');
+    fprintf('Done Saving Radiation Data!\n');
 end
 
 % Load and Parse EFM Data
