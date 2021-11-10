@@ -6,7 +6,8 @@
 %%
 clear; clc; close all;
 tic
-FlightFolder = "D:\Flight Data\Flight 3\";
+%FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
+FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
 DirectoryLocation = strcat(FlightFolder,"2-Data to Process");
 PayloadPrefixes = {"1RED", "2GREEN", "3YELLOW", "4BLUE"};
 PayloadColors = {"Red", "Green", "Yellow", "Blue"};

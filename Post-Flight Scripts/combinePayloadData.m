@@ -3,7 +3,7 @@ function [FlightData] = combinePayloadData(mergedDataTables)
 disp('Merging Payload Data...')
 
 FlightData = [];
-FlightData = tall(FlightData);
+%FlightData = tall(FlightData);
 
 for i = 1:length(mergedDataTables)
     fprintf('Merging Payload %i Data...\n',i)
