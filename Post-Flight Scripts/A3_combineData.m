@@ -12,9 +12,9 @@ FlightFolder = "D:\Flight Data\Flight 2\";
 DirectoryLocation = strcat(FlightFolder,"4-Datastore\");
 tic
 
-PayloadEnvData = datastore(strcat(DirectoryLocation,"PayloadEnvData-Refined.mat"));
+PayloadEnvData = datastore(strcat(DirectoryLocation,"PayloadEnvData-Refined.mat"),'Type','tall');
 
-PayloadRadData = datastore(strcat(DirectoryLocation,"PayloadRadData-Refined.mat"));
+PayloadRadData = datastore(strcat(DirectoryLocation,"PayloadRadData-Refined.mat"),'Type','tall');
 
 
 %%
