@@ -1,4 +1,4 @@
-function [mergedDataTables] = mergeRadEnvData(PayloadRadData, PayloadEnvData)
+function [mergedDataTables] = mergeRadEnvData(PayloadEnvData, PayloadRadData)
 startingRADSecond = 9; 
 
 disp('Merging Radiation and Environmental Data...')

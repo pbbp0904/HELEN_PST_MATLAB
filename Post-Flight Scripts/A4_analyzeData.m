@@ -1,10 +1,13 @@
-%% Go through the radiation data and look for cross corelations of events
-% between payloads
-
-% Distance between payloads throughout the flight
-[xEast,yNorth,zUp] = latlon2local(lat,lon,alt,origin);
+%% A4 Todo
 
 % Get number of counts for each time bin throughout the flight
+% Look for cross corelations of events between payloads
+% Particle discrimination
+% Pulse pile up detection
+% Stats
+% Graphs
+
+%%
 
 
 

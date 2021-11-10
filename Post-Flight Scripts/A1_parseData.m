@@ -1,3 +1,8 @@
+%% A1 Todo
+
+% Convert resistances into temperatures
+
+%%
 clear; clc; close all;
 tic
 FlightFolder = "D:\Flight Data\Flight 3\";
@@ -10,12 +15,10 @@ EfmPrefix = "EFM";
 CamPrefix = "CAM";
 CamThreshold = 1;
 
-%% Todo
-%A2 Env
-%Convert resistances into temperatures
+
 %%
 
-parseEnv = 1; parseRad = 1; parseEfm = 0; parseCam = 0; sumData = 0;
+parseEnv = 1; parseRad = 1; parseEfm = 0; parseCam = 0;
 
 PayloadEnvData = {};
 PayloadRadData = {};
@@ -44,10 +47,5 @@ if(parseCam)
     PayloadCamData = parseCamData(DirectoryLocation, PayloadPrefixes, CamPrefix, CamThreshold);
 end
 
-
-% Summarize Data
-if(sumData)
-    [Stats, Graphs] = summarizeData(PayloadEnvData, PayloadRadData, PayloadPrefixes, PayloadColors);
-end
 datetime(now,'ConvertFrom','datenum')
 toc

@@ -1,5 +1,11 @@
-DirectoryLocation = "D:/Flight Data/Flight 3/3-Processed Data/";
+%% A2 Todo
 
+% Check for missed seconds
+% Fix sub second calculation
+
+%%
+DirectoryLocation = "D:/Flight Data/Flight 3/3-Processed Data/";
+tic
 
 if ~exist('PayloadEnvData','var')
     load(strcat(DirectoryLocation,"PayloadEnvData.mat"))
@@ -11,30 +17,33 @@ end
 
 
 
-%% Todo
+%% Refine Env Data
 
-%A3
-%Check for missed seconds
-%Fix sub second calculation
-%Fix combining payload data slowness
-
-%%
-
-% Add timing info and missed pulses to radiation data
-fprintf('Finding Subsecond Values...\n');
-PayloadRadData = findSubSeconds(PayloadRadData);
-fprintf('Adding in Missed Pulses...\n');
-PayloadRadData = addMissedPulses(PayloadRadData);
-
-% Project back GPS time in environmental data
+% Project back GPS time to start
 fprintf('Projecting GPS Time...\n');
 PayloadEnvData = projectBackTime(PayloadEnvData);
 
-% Merge radiation and environmental data
-mergedDataTables = mergeRadEnvData(PayloadRadData, PayloadEnvData);
+% Add cartesian distance from SWIRLL
+fprintf('Calculating Cartesian Distances...\n');
+PayloadEnvData = calcSWIRLLDistance(PayloadEnvData);
 
-% Merge all payload data together into one table
-FlightData = combinePayloadData(mergedDataTables);
-FlightData = sortrows(FlightData,'gpsTimes');
-disp('Done Combining Data!')
+% Save Env Data
+save(strcat(FlightFolder,"3-Processed Data\PayloadEnvData-Refined.mat"),'PayloadEnvData');
+
+
+
+
+%% Refine Rad Data
+
+% Calculate subsecond values for pulses
+fprintf('Finding Subsecond Values...\n');
+PayloadRadData = findSubSeconds(PayloadRadData);
+
+% Add missing pulses to the data table
+fprintf('Adding in Missed Pulses...\n');
+PayloadRadData = addMissedPulses(PayloadRadData);
+
+% Save Rad Data
+save(strcat(FlightFolder,"3-Processed Data\PayloadRadData-Refined.mat"),'PayloadRadData');
+
 toc
