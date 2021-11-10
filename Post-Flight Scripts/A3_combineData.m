@@ -9,7 +9,7 @@ clear; clc; close all;
 FlightFolder = "D:\Flight Data\Flight 2\";
 %FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
 
-DirectoryLocation = strcat(FlightFolder,"3-Processed Data\");
+DirectoryLocation = strcat(FlightFolder,"4-Datastore\");
 tic
 
 PayloadEnvData = datastore(strcat(DirectoryLocation,"PayloadEnvData-Refined.mat"),'Type','tall');
