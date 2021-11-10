@@ -4,7 +4,10 @@
 % Transition to datastores
 
 %%
-DirectoryLocation = "D:\MATLAB\HELEN Data\Flight 2\3-Processed Data\";
+FlightFolder = "D:\Flight Data\Flight 2\";
+%FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
+
+DirectoryLocation = strcat(FlightFolder,"3-Processed Data");
 tic
 
 if ~exist('PayloadEnvData','var')
