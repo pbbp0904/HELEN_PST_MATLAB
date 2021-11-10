@@ -4,6 +4,7 @@
 % Fix sub second calculation
 
 %%
+%DirectoryLocation = "D:\MATLAB\HELEN Data\Flight 2\3-Processed Data\";
 DirectoryLocation = "D:\MATLAB\HELEN Data\Flight 2\3-Processed Data\";
 tic
 
