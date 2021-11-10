@@ -35,7 +35,7 @@ PayloadEnvData = calcSWIRLLDistance(PayloadEnvData);
 % Save Env Data
 fprintf('Saving Enviornmental Data...\n');
 PayloadEnvData = tall(PayloadEnvData);
-write(strcat(FlightFolder,"3-Processed Data\PayloadEnvData-Refined.mat"),PayloadEnvData);
+write(strcat(FlightFolder,"4-Datastore\PayloadEnvData-Refined.mat"),PayloadEnvData);
 fprintf('Done Saving Enviornmental Data...\n');
 
 
@@ -54,7 +54,7 @@ PayloadRadData = addMissedPulses(PayloadRadData);
 % Save Rad Data
 fprintf('Saving Radiation Data...\n');
 PayloadRadData = tall(PayloadRadData);
-write(strcat(FlightFolder,"3-Processed Data\PayloadRadData-Refined.mat"),PayloadRadData);
+write(strcat(FlightFolder,"4-Datastore\PayloadRadData-Refined.mat"),PayloadRadData);
 fprintf('Done Saving Radiation Data...\n');
 
 toc
