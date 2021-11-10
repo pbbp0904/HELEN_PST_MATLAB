@@ -4,7 +4,7 @@
 % Fix sub second calculation
 
 %%
-DirectoryLocation = "D:/Flight Data/Flight 3/3-Processed Data/";
+DirectoryLocation = "D:\MATLAB\HELEN Data\Flight 2\3-Processed Data\";
 tic
 
 if ~exist('PayloadEnvData','var')
