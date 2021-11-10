@@ -1,5 +1,7 @@
-function [mergedDataTables] = mergeRadEnvData(PayloadEnvData, PayloadRadData)
-startingRADSecond = 9; 
+function [mergedDataTables] = mergeRadEnvData(PayloadEnvData, PayloadRadData, DirectoryLocation)
+startingRADSecond = 9;
+
+mergedDataTables = datastore(strcat(DirectoryLocation,"MergedDatastore.csv"));
 
 disp('Merging Radiation and Environmental Data...')
 parfor i = 1:length(PayloadEnvData)

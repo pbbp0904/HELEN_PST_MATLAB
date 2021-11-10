@@ -19,7 +19,7 @@ end
 %%
 
 % Merge environmental and radiation data
-mergedDataTables = mergeRadEnvData(PayloadEnvData, PayloadRadData);
+mergedDataTables = mergeRadEnvData(PayloadEnvData, PayloadRadData, DirectoryLocation);
 
 % Merge all payload data together into one table
 FlightData = combinePayloadData(mergedDataTables);
