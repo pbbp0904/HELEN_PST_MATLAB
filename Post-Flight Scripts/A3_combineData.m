@@ -4,19 +4,17 @@
 % Transition to datastores
 
 %%
+clear; clc; close all;
+
 FlightFolder = "D:\Flight Data\Flight 2\";
 %FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
 
-DirectoryLocation = strcat(FlightFolder,"3-Processed Data");
+DirectoryLocation = strcat(FlightFolder,"3-Processed Data\");
 tic
 
-if ~exist('PayloadEnvData','var')
-    load(strcat(DirectoryLocation,"PayloadEnvData-Refined.mat"))
-end
+PayloadEnvData = datastore(strcat(DirectoryLocation,"PayloadEnvData-Refined.mat"),'Type','tall');
 
-if ~exist('PayloadRadData','var')
-    load(strcat(DirectoryLocation,"PayloadRadData-Refined.mat"))
-end
+PayloadRadData = datastore(strcat(DirectoryLocation,"PayloadRadData-Refined.mat"),'Type','tall');
 
 
 %%

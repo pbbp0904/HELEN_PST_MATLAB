@@ -1,8 +1,6 @@
 function [mergedDataTables] = mergeRadEnvData(PayloadEnvData, PayloadRadData, DirectoryLocation)
 startingRADSecond = 9;
 
-%mergedDataTables = datastore(strcat(DirectoryLocation,"MergedDatastore.csv"));
-
 disp('Merging Radiation and Environmental Data...')
 parfor i = 1:length(PayloadEnvData)
     if height(PayloadRadData{i}) > 1 && height(PayloadEnvData{i}) > 1
@@ -39,7 +37,8 @@ parfor i = 1:length(PayloadEnvData)
             EnvDataInterp(:,m) = interp1(x,v,xq);
         end
 
-        mergedDataTables{i} = PayloadRadData{i};
+        mergedDataTables{i} = arrayDatastore(PayloadRadData{i});
+        writeall(mergedDataTables{i},DirectoryLocation)
 
         mergedDataTables{i}.radSeconds = radSeconds';
         mergedDataTables{i}.PacketNum = EnvDataInterp(:,1);
