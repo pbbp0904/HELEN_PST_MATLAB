@@ -6,7 +6,8 @@
 %%
 clear; clc; close all;
 
-FlightFolder = "D:\Flight Data\Flight 2\";
+FlightFolder = "D:\Flight Data\Testing\Database Test\";
+%FlightFolder = "D:\Flight Data\Flight 2\";
 %FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
 
 DirectoryLocation = strcat(FlightFolder,"2-Data to Process");

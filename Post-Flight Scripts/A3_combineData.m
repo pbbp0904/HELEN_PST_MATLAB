@@ -6,15 +6,16 @@
 %%
 clear; clc; close all;
 
-FlightFolder = "D:\Flight Data\Flight 2\";
+FlightFolder = "D:\Flight Data\Testing\Database Test\";
+%FlightFolder = "D:\Flight Data\Flight 2\";
 %FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
 
 DirectoryLocation = strcat(FlightFolder,"4-Datastore\");
 tic
 
-PayloadEnvData = datastore(strcat(DirectoryLocation,"PayloadEnvData-Refined.mat"),'Type','tall');
+PayloadEnvData = datastore(strcat(DirectoryLocation,'PayloadEnvData-2.csv'),"IncludeSubfolders",true);
 
-PayloadRadData = datastore(strcat(DirectoryLocation,"PayloadRadData-Refined.mat"),'Type','tall');
+PayloadRadData = datastore(strcat(DirectoryLocation,'PayloadRadData.mat'),'Type','tall');
 
 
 %%
