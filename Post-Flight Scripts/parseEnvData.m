@@ -170,6 +170,7 @@ parfor payload = 1:length(PayloadPrefixes)
     
     fprintf('Done with %s\n', PayloadPrefixes{payload});
     catch
+        PayloadEnvData{payload} = [];
         fprintf('Failed to load %s\n', PayloadPrefixes{payload});
     end
 end
