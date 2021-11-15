@@ -13,7 +13,7 @@ FlightFolder = "D:\Flight Data\Testing\Database Test\";
 DirectoryLocation = strcat(FlightFolder,"4-Datastore\");
 tic
 
-PayloadEnvData = datastore(strcat(DirectoryLocation,'PayloadEnvData-2.csv'),"IncludeSubfolders",true);
+PayloadEnvData = datastore(strcat(DirectoryLocation,'PayloadEnvData-2.csv'));
 
 PayloadRadData = datastore(strcat(DirectoryLocation,'PayloadRadData.mat'),'Type','tall');
 

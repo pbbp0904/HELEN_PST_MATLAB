@@ -62,7 +62,11 @@ parfor payload = 1:length(PayloadPrefixes)
     fprintf(repmat('\b',1,lineLength));
 
     PayloadRadData{payload} = table(pps_count',pps_time',dcc_time',pulse_num',buff_diff',pulsedata_a',pulsedata_b','VariableNames',{'pps_count','pps_time','dcc_time','pulse_num','buff_diff','pulsedata_a','pulsedata_b'});
-    fprintf('Done with %s\n', PayloadPrefixes{payload});
+    if ~isempty(PayloadRadData{payload})
+        fprintf('Done with %s\n', PayloadPrefixes{payload});
+    else
+        fprintf('Failed to load %s\n', PayloadPrefixes{payload});
+    end
 end
 
 fprintf('Radiation Data Parsing Complete!\n');

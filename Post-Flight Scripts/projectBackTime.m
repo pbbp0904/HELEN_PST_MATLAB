@@ -1,16 +1,17 @@
-function [PayloadEnvData] = projectBackTime(PayloadEnvData)
+function [gpsTimes] = projectBackTime(gpsTimes)
 
-
-for i = 1:length(PayloadEnvData)
-    if ~isempty(PayloadEnvData{i})
-        a = find(abs(diff(PayloadEnvData{i}.gpsTimes*24*3600)-1) < 10^(-3));
-        timeStart = a(1);
-        timeAtStart = PayloadEnvData{i}.gpsTimes(timeStart);
-
-        for j = 1:timeStart-1
-            PayloadEnvData{i}.gpsTimes(timeStart-j) = timeAtStart - j/(24*3600);
-        end
+% Check emptiness
+if length(gpsTimes) > 1
+    % Find all of the locations where gpsTime changes by one second
+    a = find(abs(diff(gpsTimes*24*3600)-1) < 10^(-3));
+    timeStart = a(1);
+    % Set the timeAtStart equal to the first instance when this happens
+    timeAtStart = gpsTimes(timeStart);
+    % Project back the time to the start of the data
+    for j = 1:timeStart-1
+        gpsTimes(timeStart-j) = timeAtStart - j/(24*3600);
     end
 end
+
 end
 

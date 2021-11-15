@@ -22,41 +22,41 @@ if ~exist('PayloadRadData','var')
     load(strcat(DirectoryLocation,"PayloadRadData.mat"))
 end
 
+% Suppress preallocation warnings
+%#ok<*SAGROW>
 
 
 %% Refine Env Data
 
-% Project back GPS time to start
-fprintf('Projecting GPS Time...\n');
-PayloadEnvData = projectBackTime(PayloadEnvData);
+% For each payload
+for payloadNumber = 1:length(PayloadEnvData)
+    % Project back GPS time to start
+    fprintf('Projecting GPS Time for payload %i...\n',payloadNumber);
+    PayloadEnvData{payloadNumber}.gpsTimes = projectBackTime(PayloadEnvData{payloadNumber}.gpsTimes);  
 
-% Add cartesian distance from SWIRLL
-fprintf('Calculating Cartesian Distances...\n');
-PayloadEnvData = calcSWIRLLDistance(PayloadEnvData);
+    % Add cartesian distance from SWIRLL
+    fprintf('Calculating Cartesian Distances for payload %i...\n',payloadNumber);
+    [PayloadEnvData{payloadNumber}.xEast, PayloadEnvData{payloadNumber}.yNorth, PayloadEnvData{payloadNumber}.zUp] = calcSWIRLLDistance(PayloadEnvData{payloadNumber}.gpsLats, PayloadEnvData{payloadNumber}.gpsLongs, PayloadEnvData{payloadNumber}.gpsAlts);
 
-% Save Env Data
-fprintf('Saving Enviornmental Data...\n');
-%PayloadEnvDatastore = tall(PayloadEnvData);
-writeEnvToDatastore(PayloadEnvData, FlightFolder);
-%write(strcat(FlightFolder,'4-Datastore\PayloadEnvData-Refined.mat'),PayloadEnvDatastore,'FileType','mat');
-fprintf('Done Saving Enviornmental Data!\n');
-
+    % Save Env Data
+    fprintf('Saving Enviornmental Data for payload %i...\n',payloadNumber);
+    writeEnvToDatastore(PayloadEnvData{payloadNumber}, FlightFolder, payloadNumber);
+    fprintf('Done Saving Enviornmental Data for payload %i...\n',payloadNumber);
+end
 
 %% Refine Rad Data
+for payloadNumber = 1:length(PayloadRadData)
+    % Calculate subsecond values for pulses
+    fprintf('Finding Subsecond Values for payload %i...\n',payloadNumber);
+    [PayloadRadData{payloadNumber}.ppsTimeCorrected, PayloadRadData{payloadNumber}.subSecond] = findSubSeconds(PayloadRadData{payloadNumber}.pps_time, PayloadRadData{payloadNumber}.dcc_time);
 
-% Calculate subsecond values for pulses
-fprintf('Finding Subsecond Values...\n');
-%PayloadRadData = findSubSeconds(PayloadRadData);
+    % Add missing pulses to the data table
+    fprintf('Adding in Missed Pulses for payload %i...\n',payloadNumber);
+    PayloadRadData{payloadNumber} = addMissedPulses(PayloadRadData{payloadNumber});
 
-% Add missing pulses to the data table
-fprintf('Adding in Missed Pulses...\n');
-%PayloadRadData = addMissedPulses(PayloadRadData);
-
-% Save Rad Data
-fprintf('Saving Radiation Data...\n');
-%PayloadRadDatastore = tall(PayloadRadData);
-writeRadToDatastore(PayloadRadData, FlightFolder);
-%write(strcat(FlightFolder,'4-Datastore\PayloadRadData-Refined.mat'),PayloadRadDatastore,'FileType','mat');
-fprintf('Done Saving Radiation Data!\n');
-
+    % Save Rad Data
+    fprintf('Saving Radiation Data for payload %i...\n',payloadNumber);
+    writeRadToDatastore(PayloadRadData{payloadNumber}, FlightFolder, payloadNumber);
+    fprintf('Done Saving Radiation Data for payload %i...\n',payloadNumber);
+end
 toc

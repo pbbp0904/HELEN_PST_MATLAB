@@ -1,21 +1,20 @@
-function [PayloadRadData] = findSubSeconds(PayloadRadData)
+function [pps_timeCorrected, subSecond] = findSubSeconds(pps_time, dcc_time)
 %findSubseconds Summary of this function goes here
 %   Detailed explanation goes here
 
 clockHz = 50000000;
 
-for i = 1:length(PayloadRadData)
-    
+if length(pps_time)>1 && length(dcc_time)>1
     % Make new corrected pps_time
-    pps_timeCorrected = PayloadRadData{i}.pps_time;
-    
+    pps_timeCorrected = pps_time;
+
     % Find clock drifts
-    dpps = diff(PayloadRadData{i}.pps_time);
+    dpps = diff(pps_time);
     clockChangeMedian = median(dpps(dpps~=0));
     clockChangeIndicies = find(abs(dpps-clockChangeMedian)<1000&dpps~=0);
-    
-    if(~isempty(PayloadRadData{i}.pps_time) && length(clockChangeIndicies) > 10 )
-        
+
+    if(length(clockChangeIndicies) > 10 )
+
         % Find clock drift at start
         slopeFound = 0;
         j = 1;
@@ -34,12 +33,12 @@ for i = 1:length(PayloadRadData)
 
         % Project initial clock drift back to start
         s = 1;
-        startSubSecTime = clockHz - PayloadRadData{i}.pps_time(GPSLockIndex);
+        startSubSecTime = clockHz - pps_time(GPSLockIndex);
         for j = fliplr(1:GPSLockIndex-1)
-            if PayloadRadData{i}.dcc_time(j) > PayloadRadData{i}.dcc_time(j+1)
+            if dcc_time(j) > dcc_time(j+1)
                 s = s + 1;
             end
-            pps_timeCorrected(j) = round(PayloadRadData{i}.pps_time(GPSLockIndex) - (s*clockHz - PayloadRadData{i}.dcc_time(j) - startSubSecTime)*startingDrift/clockHz);
+            pps_timeCorrected(j) = round(pps_time(GPSLockIndex) - (s*clockHz - dcc_time(j) - startSubSecTime)*startingDrift/clockHz);
         end
 
 
@@ -65,17 +64,17 @@ for i = 1:length(PayloadRadData)
             k = m;
 
             % Find number of clock cycles and total drift between start and end indicies
-            sTot = sum(diff(PayloadRadData{i}.dcc_time(interpStartIndex:interpEndIndex-1))<-100000);
-            numOfClockCycles = (sTot-1)*clockHz + PayloadRadData{i}.pps_time(interpEndIndex) + (clockHz-PayloadRadData{i}.pps_time(interpStartIndex));
-            driftInClockCycles = (PayloadRadData{i}.pps_time(interpStartIndex)-PayloadRadData{i}.pps_time(interpEndIndex))/numOfClockCycles;
+            sTot = sum(diff(dcc_time(interpStartIndex:interpEndIndex-1))<-100000);
+            numOfClockCycles = (sTot-1)*clockHz + pps_time(interpEndIndex) + (clockHz-pps_time(interpStartIndex));
+            driftInClockCycles = (pps_time(interpStartIndex)-pps_time(interpEndIndex))/numOfClockCycles;
 
             % Interpolate between indicies
             s = 0;
             for j = interpStartIndex:interpEndIndex-1
-                if PayloadRadData{i}.dcc_time(j) - PayloadRadData{i}.dcc_time(j-1) < -100000
+                if dcc_time(j) - dcc_time(j-1) < -100000
                     s = s + 1;
                 end
-                pps_timeCorrected(j) = round(PayloadRadData{i}.pps_time(interpStartIndex) - (s*clockHz + PayloadRadData{i}.dcc_time(j) - PayloadRadData{i}.pps_time(interpStartIndex))*driftInClockCycles);
+                pps_timeCorrected(j) = round(pps_time(interpStartIndex) - (s*clockHz + dcc_time(j) - pps_time(interpStartIndex))*driftInClockCycles);
             end
         end
 
@@ -86,15 +85,18 @@ for i = 1:length(PayloadRadData)
         % Interpolate between indicies
         s = 0;
         for j = interpStartIndex:interpEndIndex-1
-            if PayloadRadData{i}.dcc_time(j) - PayloadRadData{i}.dcc_time(j-1) < -100000
+            if dcc_time(j) - dcc_time(j-1) < -100000
                 s = s + 1;
             end
-            pps_timeCorrected(j) = round(PayloadRadData{i}.pps_time(interpStartIndex) - (s*clockHz + PayloadRadData{i}.dcc_time(j) - PayloadRadData{i}.pps_time(interpStartIndex))*driftInClockCycles);
+            pps_timeCorrected(j) = round(pps_time(interpStartIndex) - (s*clockHz + dcc_time(j) - pps_time(interpStartIndex))*driftInClockCycles);
         end
     end
-    
-    PayloadRadData{i}.pps_timeCorrected = pps_timeCorrected;
-    PayloadRadData{i}.subSecond = mod(PayloadRadData{i}.dcc_time - pps_timeCorrected,clockHz)./clockHz;
+
+    subSecond = mod(dcc_time - pps_timeCorrected,clockHz)./clockHz;
+else
+    pps_timeCorrected = missing;
+    subSecond = missing;
 end
+
 
 end
