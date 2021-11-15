@@ -1,8 +1,10 @@
 %% A1 Todo
 
-% Convert resistances into temperatures
-% Make a run file
-% Auto create folder if one does not exist
+% Convert resistances into temperatures - Chris
+% Make a run file - Sean - Create a text file with the data directory in it, have
+% MATLAB load file, and set FlightFolder variable to the data directory 
+% Auto create folder if one does not exist - Seth - A1, 3-Processed Data;
+% A2 4-Datastore
 
 %%
 clear; clc; close all;
