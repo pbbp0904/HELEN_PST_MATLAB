@@ -29,7 +29,7 @@ end
 %% Refine Env Data
 
 % For each payload
-for payloadNumber = 1:length(PayloadEnvData)
+parfor payloadNumber = 1:length(PayloadEnvData)
     % Project back GPS time to start
     fprintf('Projecting GPS Time for payload %i...\n',payloadNumber);
     PayloadEnvData{payloadNumber}.gpsTimes = projectBackTime(PayloadEnvData{payloadNumber}.gpsTimes);  
@@ -45,7 +45,7 @@ for payloadNumber = 1:length(PayloadEnvData)
 end
 
 %% Refine Rad Data
-for payloadNumber = 1:length(PayloadRadData)
+parfor payloadNumber = 1:length(PayloadRadData)
     % Calculate subsecond values for pulses
     fprintf('Finding Subsecond Values for payload %i...\n',payloadNumber);
     [PayloadRadData{payloadNumber}.ppsTimeCorrected, PayloadRadData{payloadNumber}.subSecond] = findSubSeconds(PayloadRadData{payloadNumber}.pps_time, PayloadRadData{payloadNumber}.dcc_time);
