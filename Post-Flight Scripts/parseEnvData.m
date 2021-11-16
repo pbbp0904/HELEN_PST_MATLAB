@@ -81,10 +81,10 @@ parfor payload = 1:length(PayloadPrefixes)
             MagZ = [MagZ; str2double(Gline{13})];
 
             IMUTemp = [IMUTemp; str2double(Gline{14})/100];
-            HPSTemp = [HPSTemp; str2double(Gline{15})];
-            EXTTemp = [EXTTemp; str2double(Gline{16})];
-            BATTemp = [BATTemp; str2double(Gline{17})];
-            PMTTemp = [PMTTemp; str2double(Gline{18})];
+            HPSTemp = [HPSTemp; channel2Temp(str2double(Gline{15}))];
+            EXTTemp = [EXTTemp; channel2Temp(str2double(Gline{16}))];
+            BATTemp = [BATTemp; channel2Temp(str2double(Gline{17}))];
+            PMTTemp = [PMTTemp; channel2Temp(str2double(Gline{18}))];
 
             % Assign GPS Data
             gpsPacketNums = [gpsPacketNums; gpsPacketNum];
@@ -166,7 +166,7 @@ parfor payload = 1:length(PayloadPrefixes)
 
     PayloadEnvData{payload} = table(PacketNum, Pitch, Roll, Yaw, AccX, AccY, AccZ, GyroX, GyroY, GyroZ, MagX, MagY, MagZ, IMUTemp, HPSTemp, EXTTemp, BATTemp, PMTTemp, gpsPacketNums, gpsTimes, gpsLats, gpsLongs, gpsSpeeds, gpsAngles, gpsAlts, gpsSatNums, gpsLatErrs, gpsLongErrs, gpsAltErrs, gpsClkBiases, gpsClkDrifts, gpsTimeErrs);
     %PayloadEnvData{payload}.Properties.VariableDescriptions = {'PacketNum=number', 'Pitch=degrees', 'Roll=degrees', 'Yaw=degrees', 'AccX=meters/second^2', 'AccY=meters/second^2', 'AccZ=meters/second^2', 'GyroX=degrees/second', 'GyroY=degrees/second', 'GyroZ=degrees/second', 'MagX=???', 'MagY=???', 'MagZ=???', 'IMUTemp=Celsius', 'HPSTemp=???', 'EXTTemp=???', 'BATTemp=???', 'PMTTemp=???', 'gpsPacketNums=number', 'gpsTimes=date number', 'gpsLats=decimal latitude', 'gpsLongs=decimal longitude', 'gpsSpeeds=meters/second', 'gpsAngles=degrees', 'gpsAlts=meters', 'gpsSatNums=number', 'gpsLatErrs=standard deviation in meters', 'gpsLongErrs=standard deviation in meters', 'gpsAltErrs=standard deviation in meters', 'gpsClkBiases=nanoseconds', 'gpsClkDrifts=nanoseconds/second', 'gpsTimeErrs=standard deviation in nanoseconds'};
-    PayloadEnvData{payload}.Properties.VariableUnits = {'number', 'degrees', 'degrees', 'degrees', 'meters/second^2', 'meters/second^2', 'meters/second^2', 'degrees/second', 'degrees/second', 'degrees/second', '???', '???', '???', 'Celsius', '???', '???', '???', '???', 'number', 'date number', 'decimal latitude', 'decimal longitude', 'meters/second', 'degrees', 'meters', 'number', 'standard deviation in meters', 'standard deviation in meters', 'standard deviation in meters', 'nanoseconds', 'nanoseconds/second', 'standard deviation in nanoseconds'};
+    PayloadEnvData{payload}.Properties.VariableUnits = {'number', 'degrees', 'degrees', 'degrees', 'meters/second^2', 'meters/second^2', 'meters/second^2', 'degrees/second', 'degrees/second', 'degrees/second', '???', '???', '???', 'Celsius', 'Celsius', 'Celsius', 'Celsius', 'Celsius', 'number', 'date number', 'decimal latitude', 'decimal longitude', 'meters/second', 'degrees', 'meters', 'number', 'standard deviation in meters', 'standard deviation in meters', 'standard deviation in meters', 'nanoseconds', 'nanoseconds/second', 'standard deviation in nanoseconds'};
     
     fprintf('Done with %s\n', PayloadPrefixes{payload});
     catch
