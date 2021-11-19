@@ -1,17 +1,17 @@
 %% A2 Todo
 
 % Check for missed seconds
-% Fix sub second calculation
+% Fix sub second calculation - Seth is going through it
 % Try to speed up subSecond calculation
 
 %%
 %FlightFolder = "D:/Flight Data/Testing/Database Test/";
-FlightFolder = "C:\Users\Sean\Desktop\UAH\SHC\HELEN\HELEN_Data\Flight 2\";
-%FlightFolder = "D:\Flight Data\Flight 2\";
+%FlightFolder = "C:\Users\Sean\Desktop\UAH\SHC\HELEN\HELEN_Data\Flight 2\";
+FlightFolder = "D:\Flight Data\Flight 2\";
 %FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
 
 if isfolder(FlightFolder + '4-Datastore') == 0
-mkdir(FlightFolder, '4-Datastore');
+    mkdir(FlightFolder, '4-Datastore');
 end
 
 DirectoryLocation = strcat(FlightFolder,"3-Processed Data/");
@@ -34,7 +34,7 @@ end
 %% Refine Env Data
 
 % For each payload
-parfor payloadNumber = 1:length(PayloadEnvData)
+for payloadNumber = 1:length(PayloadEnvData)
     % Project back GPS time to start
     fprintf('Projecting GPS Time for payload %i...\n',payloadNumber);
     PayloadEnvData{payloadNumber}.gpsTimes = projectBackTime(PayloadEnvData{payloadNumber}.gpsTimes);  
@@ -50,7 +50,7 @@ parfor payloadNumber = 1:length(PayloadEnvData)
 end
 
 %% Refine Rad Data
-parfor payloadNumber = 1:length(PayloadRadData)
+for payloadNumber = 1:length(PayloadRadData)
     % Calculate subsecond values for pulses
     fprintf('Finding Subsecond Values for payload %i...\n',payloadNumber);
     [PayloadRadData{payloadNumber}.ppsTimeCorrected, PayloadRadData{payloadNumber}.subSecond] = findSubSeconds(PayloadRadData{payloadNumber}.pps_time, PayloadRadData{payloadNumber}.dcc_time);
@@ -58,10 +58,11 @@ parfor payloadNumber = 1:length(PayloadRadData)
     % Add missing pulses to the data table
     fprintf('Adding in Missed Pulses for payload %i...\n',payloadNumber);
     PayloadRadData{payloadNumber} = addMissedPulses(PayloadRadData{payloadNumber});
-
+    
     % Save Rad Data
     fprintf('Saving Radiation Data for payload %i...\n',payloadNumber);
     writeRadToDatastore(PayloadRadData{payloadNumber}, FlightFolder, payloadNumber);
     fprintf('Done Saving Radiation Data for payload %i...\n',payloadNumber);
 end
+
 toc

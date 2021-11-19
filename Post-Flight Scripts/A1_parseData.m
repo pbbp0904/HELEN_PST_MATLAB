@@ -1,21 +1,19 @@
 %% A1 Todo
 
-% Convert resistances into temperatures - Chris
 % Make a run file - Sean - Create a text file with the data directory in it, have
 % MATLAB load file, and set FlightFolder variable to the data directory 
-% Auto create folder if one does not exist - Seth - A1, 3-Processed Data;
-% A2 4-Datastore
+
 
 %%
 clear; clc; close all;
 
 %FlightFolder = "D:\Flight Data\Testing\Database Test\";
 %FlightFolder = "C:\Users\Sean\Desktop\UAH\SHC\HELEN\HELEN_Data\Flight 2\";
-%FlightFolder = "D:\Flight Data\Flight 2\";
-FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
+FlightFolder = "D:\Flight Data\Flight 2\";
+%FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
 
 if isfolder(FlightFolder + '3-Processed Data') == 0
-mkdir(FlightFolder, '3-Processed Data');
+    mkdir(FlightFolder, '3-Processed Data');
 end
 
 DirectoryLocation = strcat(FlightFolder,"2-Data to Process");
@@ -73,7 +71,7 @@ end
 
 % Add missing Radiation data and save
 if (parseRad)
-    PayloadRadData = addMissingRadData(PayloadEnvData, maxPayload);
+    PayloadRadData = addMissingRadData(PayloadRadData, maxPayload);
     fprintf('Saving Radiation Data...\n');
     save(strcat(FlightFolder,"3-Processed Data\PayloadRadData.mat"),'PayloadRadData','-v7.3');
     fprintf('Done Saving Radiation Data!\n');
