@@ -1,9 +1,6 @@
 %% A1 Todo
 
 
-% Make a run file - Sean - Create a text file with the data directory in it, have
-% MATLAB load file, and set FlightFolder variable to the data directory 
-
 %%
 clear; clc; close all;
 
