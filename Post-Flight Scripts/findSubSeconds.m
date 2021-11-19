@@ -90,7 +90,7 @@ if length(pps_time)>1 && length(dcc_time)>1
 
             % Find number of clock cycles and total drift between start and end indicies
             sTot = sum(diff(dcc_time(interpStartIndex:interpEndIndex-1))<-100000);
-            numOfClockCycles = (sTot-1)*clockHz + pps_time(interpEndIndex) + (clockHz-pps_time(interpStartIndex));
+            numOfClockCycles = (sTot)*clockHz + dcc_time(interpEndIndex) - dcc_time(interpStartIndex);
             driftInClockCycles = (pps_time(interpStartIndex)-pps_time(interpEndIndex))/numOfClockCycles;
 
             % Interpolate between indicies
