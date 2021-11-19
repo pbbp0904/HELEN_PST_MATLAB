@@ -1,5 +1,6 @@
 %% A1 Todo
 
+
 % Make a run file - Sean - Create a text file with the data directory in it, have
 % MATLAB load file, and set FlightFolder variable to the data directory 
 
@@ -71,7 +72,7 @@ end
 
 % Add missing Radiation data and save
 if (parseRad)
-    PayloadRadData = addMissingRadData(PayloadEnvData, maxPayload);
+    PayloadRadData = addMissingRadData(PayloadRadData, maxPayload);
     fprintf('Saving Radiation Data...\n');
     save(strcat(FlightFolder,"3-Processed Data\PayloadRadData.mat"),'PayloadRadData','-v7.3');
     fprintf('Done Saving Radiation Data!\n');
