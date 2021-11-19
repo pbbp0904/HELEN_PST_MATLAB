@@ -2,7 +2,7 @@ function [lightCurve,lightCurveReal] = makeLightCurveEnergyTailFiltered(PayloadR
 
 dcc_time = PayloadRadData{payloadNumber}.dcc_time;
 pulsedata_b = PayloadRadData{payloadNumber}.pulsedata_b;
-isTail = PayloadRadData{payloadNumber}.isTail;
+%isTail = PayloadRadData{payloadNumber}.isTail;
 
 clockHz = 50000000;
 
