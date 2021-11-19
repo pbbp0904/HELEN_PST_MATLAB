@@ -6,7 +6,11 @@
 
 %%
 clear; clc; close all;
-
+%"D:/Flight Data/Testing/Database Test/";
+%"C:\Users\Sean\Desktop\UAH\SHC\HELEN\HELEN_Data\Flight 2\";
+%"D:\Flight Data\Flight 2\";
+%"D:\Flight Data\Flight 2\";
+%"D:\MATLAB\HELEN Data\Flight 2\";
 FlightFolder = runFile();
 
 if isfolder(FlightFolder + '3-Processed Data') == 0
