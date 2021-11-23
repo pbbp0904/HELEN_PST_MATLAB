@@ -7,7 +7,7 @@ function B = runFile()
 %open the file.
 fileID = fopen('PathtoData.txt','r');
 %read the file.
-A = textscan(fileID,'%s');
+A = textscan(fileID,'%s','Delimiter','\n');
 %convert to a string.
 B = string(A);
 %print to check. This is not needed.

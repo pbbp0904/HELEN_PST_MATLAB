@@ -12,7 +12,6 @@ WindowStart = 60000;
 WindowEnd = 160000;
 
 
-
 EFieldDirection = zeros(1,WindowEnd-WindowStart+1)+100;
 for i = WindowStart:WindowEnd
    for j = -200:-50
@@ -48,4 +47,8 @@ ylabel(c, {'Electric Field Direction','(Degrees from Nadir)'})
 set(gca,'YColor',[0 0 1]);
 title('Electric Field Magnitude and Direction')
 
-
+a=figure();
+EFieldDirection360 = [EFieldDirection, 360-EFieldDirection];
+ax=polarhistogram(EFieldDirection/360*2*pi,50);
+a.CurrentAxes.ThetaZeroLocation = 'bottom';
+a.CurrentAxes.ThetaLim = [0 180];
