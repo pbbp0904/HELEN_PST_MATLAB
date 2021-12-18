@@ -106,7 +106,7 @@ for payload = 1:length(PayloadPrefixes)
         % 1D eField
         eField = [];
         for i = 1:length(eField_RAW)
-            eField(i) = max(smooth(eField_RAW(max(1,i-50):min(length(eField_RAW),i+50)),5));
+            eField(i) = max(smooth(eField_RAW(max(1,i-2/Ks.samplePeriod):min(length(eField_RAW),i+2/Ks.samplePeriod)),5));
         end
 
         PayloadEfmData{payload} = table(PacketNum, ADC, Pitch, Roll, Yaw, AccX_RAW, AccY_RAW, AccZ_RAW, GyroX_RAW, GyroY_RAW, GyroZ_RAW, MagX_RAW, MagY_RAW, MagZ_RAW, IMUTemp, time, AccX, AccY, AccZ, MagX, MagY, MagZ, GyroX, GyroY, GyroZ, eField_RAW, eField);

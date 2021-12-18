@@ -28,7 +28,7 @@ CamThreshold = 1;
 
 %%
 
-parseEnv = 0; parseRad = 0; parseEfm = 1; parseCam = 0;
+parseEnv = 1; parseRad = 1; parseEfm = 0; parseCam = 0;
 
 PayloadEnvData = {};
 PayloadRadData = {};

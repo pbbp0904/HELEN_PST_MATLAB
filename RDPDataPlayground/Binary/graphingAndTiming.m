@@ -1,5 +1,5 @@
 
-% Plotting environmental stuff
+% Plotting environmental data
 for i = 1:width(PayloadEnvData{1})
 figure()
 t = tiledlayout(2,2);
@@ -28,9 +28,10 @@ end
 % Plotting timing data
 figure()
 hold on
-plot((PayloadRadData{2}.pps_time(1760000:1763000)-min(PayloadRadData{2}.pps_time(1760000:1763000)))./max((PayloadRadData{2}.pps_time(1760000:1763000)-min(PayloadRadData{2}.pps_time(1760000:1763000)))))
-plot((PayloadRadData{2}.dcc_time(1760000:1763000)-min(PayloadRadData{2}.dcc_time(1760000:1763000)))./max((PayloadRadData{2}.dcc_time(1760000:1763000)-min(PayloadRadData{2}.dcc_time(1760000:1763000)))))
-plot((PayloadRadData{2}.subSecond(1760000:1763000)-min(PayloadRadData{2}.subSecond(1760000:1763000)))./max((PayloadRadData{2}.subSecond(1760000:1763000)-min(PayloadRadData{2}.subSecond(1760000:1763000)))))
+payload = 1;
+plot((PayloadRadData{payload}.pps_time-min(PayloadRadData{payload}.pps_time))./max((PayloadRadData{payload}.pps_time-min(PayloadRadData{payload}.pps_time))))
+plot((PayloadRadData{payload}.dcc_time-min(PayloadRadData{payload}.dcc_time))./max((PayloadRadData{payload}.dcc_time-min(PayloadRadData{payload}.dcc_time))))
+%plot((PayloadRadData{payload}.subSecond-min(PayloadRadData{payload}.subSecond))./max((PayloadRadData{payload}.subSecond-min(PayloadRadData{payload}.subSecond))))
 
 
 % Pulses
