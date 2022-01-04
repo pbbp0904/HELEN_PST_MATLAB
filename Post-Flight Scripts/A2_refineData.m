@@ -61,6 +61,15 @@ for payloadNumber = 1:length(PayloadRadData)
     fprintf('Adding in Missed Pulses for payload %i...\n',payloadNumber);
     PayloadRadData{payloadNumber} = addMissedPulses(PayloadRadData{payloadNumber});
     
+    % Pulse Pile Up - Chris
+    
+    % Particle Type - Seth 
+    
+    % Energy - Sean
+    
+    % Pulse Tail
+    PayloadRadData{payloadNumber}.isTail = isTail(PayloadRadData{payloadNumber}.dcc_time,PayloadRadData{payloadNumber}.pulsedata_b);
+    
     % Save Rad Data
     fprintf('Saving Radiation Data for payload %i...\n',payloadNumber);
     writeRadToDatastore(PayloadRadData{payloadNumber}, FlightFolder, payloadNumber);
