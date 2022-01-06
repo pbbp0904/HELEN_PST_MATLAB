@@ -62,10 +62,13 @@ for payloadNumber = 1:length(PayloadRadData)
     PayloadRadData{payloadNumber} = addMissedPulses(PayloadRadData{payloadNumber});
     
     % Pulse Pile Up - Chris
+    pulsePileUp
     
-    % Particle Type - Seth 
+    % Particle Type
+    % particleType TBD
     
     % Energy - Sean
+    [PayloadRadData{payloadNumber}.EPeakA, PayloadRadData{payloadNumber}.EPeakB, PayloadRadData{payloadNumber}.EIntA, PayloadRadData{payloadNumber}.EIntB] = getEnergies(PayloadRadData{payloadNumber}.pulsedata_a, PayloadRadData{payloadNumber}.pulsedata_b, RadDetectorTypes{payloadNumber});
     
     % Pulse Tail
     PayloadRadData{payloadNumber}.isTail = isTail(PayloadRadData{payloadNumber}.dcc_time,PayloadRadData{payloadNumber}.pulsedata_b);
