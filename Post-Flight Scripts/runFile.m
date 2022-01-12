@@ -2,7 +2,6 @@ function B = runFile()
 %RUNFILE- Created by Sean Hassler - Pulls the path to the datastore.
 %   This is to make things more general since everyone will have their
 %own text files.
-%   Possible Upgrade - Find the files anywhere on the computer?
 
 %open the file.
 fileID = fopen('PathtoData.txt','r');

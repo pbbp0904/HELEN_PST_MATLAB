@@ -1,16 +1,19 @@
-function [] = makePSDGraph(PayloadRadData,payloadNumber,channel,removeTails)
-figure()
+function [] = makePSDGraph(PayloadRadData,payloadNumber,channel,removeTails,start,finish)
+
+start = max(round(start*length(PayloadRadData{payloadNumber}.pulsedata_a)),1);
+finish = min(round(finish*length(PayloadRadData{payloadNumber}.pulsedata_a)),length(PayloadRadData{payloadNumber}.pulsedata_a));
+
 if channel == 'a'
-    peak_data = mean(-PayloadRadData{payloadNumber}.pulsedata_a(:,4:14)')';
-    tail_data = mean(-PayloadRadData{payloadNumber}.pulsedata_a(:,14:end)')';
+    peak_data = mean(-PayloadRadData{payloadNumber}.pulsedata_a(start:finish,4:14)')';
+    tail_data = mean(-PayloadRadData{payloadNumber}.pulsedata_a(start:finish,14:end)')';
 else
-    peak_data = mean(-PayloadRadData{payloadNumber}.pulsedata_b(:,4:14)')';
-    tail_data = mean(-PayloadRadData{payloadNumber}.pulsedata_b(:,14:end)')';
+    peak_data = mean(-PayloadRadData{payloadNumber}.pulsedata_b(start:finish,4:14)')';
+    tail_data = mean(-PayloadRadData{payloadNumber}.pulsedata_b(start:finish,14:end)')';
 end
 
 if removeTails
-    peak_data = peak_data(PayloadRadData{payloadNumber}.isTail==0);
-    tail_data = tail_data(PayloadRadData{payloadNumber}.isTail==0);
+    peak_data = peak_data(PayloadRadData{payloadNumber}.isTail(start:finish)==0);
+    tail_data = tail_data(PayloadRadData{payloadNumber}.isTail(start:finish)==0);
 end
 
 h=hist3([peak_data,tail_data],[round((max(peak_data)-min(peak_data))/4),round((max(tail_data)-min(tail_data))/4)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
@@ -25,7 +28,7 @@ title({'Pulse Shape Discrimination Scatter Plot','ADC B 60ns Peak to Tail Delay'
 xlabel('Peak Sample Height')
 ylabel('Tail Sample Height')
 ylim([-300,2500])
-xlim([-200,1800])
+xlim([-300,2500])
 
 
 end
