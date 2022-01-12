@@ -64,7 +64,8 @@ for payloadNumber = 1:length(PayloadRadData)
     % Pulse Pile Up - Chris
     
     % Particle Type - Seth 
-    
+    PayloadRadData{payloadNumber} = particleType(PayloadRadData{payloadNumber});
+
     % Energy - Sean
     
     % Pulse Tail
