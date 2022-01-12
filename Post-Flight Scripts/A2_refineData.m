@@ -61,11 +61,10 @@ for payloadNumber = 1:length(PayloadRadData)
     fprintf('Adding in Missed Pulses for payload %i...\n',payloadNumber);
     PayloadRadData{payloadNumber} = addMissedPulses(PayloadRadData{payloadNumber});
     
-    % Pulse Pile Up - Chris
-    pulsePileUp
+    % Pulse Pile Up
+    PayloadRadData{payloadNumber}.PeakNumber = getPeakNumber(PayloadRadData{payloadNumber}.pulsedata_b);
     
-    % Particle Type
-    % particleType TBD
+    % Particle Type - TBD
     
     % Energy - Sean
     [PayloadRadData{payloadNumber}.EPeakA, PayloadRadData{payloadNumber}.EPeakB, PayloadRadData{payloadNumber}.EIntA, PayloadRadData{payloadNumber}.EIntB] = getEnergies(PayloadRadData{payloadNumber}.pulsedata_a, PayloadRadData{payloadNumber}.pulsedata_b, RadDetectorTypes{payloadNumber});
