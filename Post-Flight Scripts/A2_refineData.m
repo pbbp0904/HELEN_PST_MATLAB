@@ -12,6 +12,10 @@
 %FlightFolder = "D:\MATLAB\HELEN Data\Flight 2\";
 FlightFolder = runFile();
 
+PayloadPrefixes = {"1RED", "2GREEN", "3YELLOW", "4BLUE"};
+PayloadColors = {"Red", "Green", "Yellow", "Blue"};
+RadDetectorTypes = {"LYSO", "CLYC", "LYSO", "LYSO"};
+
 if isfolder(FlightFolder + '4-Datastore') == 0
     mkdir(FlightFolder, '4-Datastore');
 end
