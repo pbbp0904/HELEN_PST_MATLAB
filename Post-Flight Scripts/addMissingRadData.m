@@ -13,7 +13,7 @@ for payload = 1:maxPayload
         % Add 1 row of missing values
         PayloadRadData{payload} = PayloadRadData{i}(1,:);
         for ind = 1 : width(PayloadRadData{payload})
-            PayloadRadData{payload}.(ind) = missing; 
+            PayloadRadData{payload}.(ind) = NaN;
         end
     end
 end
