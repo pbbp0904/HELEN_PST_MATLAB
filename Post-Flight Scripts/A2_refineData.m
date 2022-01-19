@@ -67,7 +67,7 @@ for payloadNumber = 1:length(PayloadRadData)
     
     % Particle Type - Seth 
     fprintf('Finding Particle Type for payload %i...\n',payloadNumber);
-    PayloadRadData{payloadNumber} = particleType(PayloadRadData{payloadNumber});
+    %PayloadRadData{payloadNumber} = particleType(PayloadRadData{payloadNumber});
     
     % Energy - Sean
     fprintf('Calculating Energies for payload %i...\n',payloadNumber);
