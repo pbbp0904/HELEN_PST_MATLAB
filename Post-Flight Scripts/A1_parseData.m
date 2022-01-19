@@ -57,7 +57,7 @@ end
 
 
 %%
-% Add missing environmental data and save
+% Add missing Environmental data and save
 
 maxPayload = max([length(PayloadEnvData), length(PayloadRadData), length(PayloadEfmData), length(PayloadCamData)]);
 if (parseEnv)
