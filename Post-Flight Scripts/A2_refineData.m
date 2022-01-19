@@ -66,16 +66,19 @@ for payloadNumber = 1:length(PayloadRadData)
     PayloadRadData{payloadNumber} = addMissedPulses(PayloadRadData{payloadNumber});
     
     % Pulse Pile Up
+    fprintf('Finding Pulse Pile Ups for payload %i...\n',payloadNumber);
     PayloadRadData{payloadNumber}.PeakNumber = getPeakNumber(PayloadRadData{payloadNumber}.pulsedata_b);
     
     % Particle Type - Seth 
-    fprintf('Finding Particle Type for payload %i...\n',payloadNumber);
+    %fprintf('Finding Particle Type for payload %i...\n',payloadNumber);
     %PayloadRadData{payloadNumber} = particleType(PayloadRadData{payloadNumber});
     
     % Energy - Sean
+    fprintf('Finding Energies for payload %i...\n',payloadNumber);
     [PayloadRadData{payloadNumber}.EPeakA, PayloadRadData{payloadNumber}.EPeakB, PayloadRadData{payloadNumber}.EIntA, PayloadRadData{payloadNumber}.EIntB] = getEnergies(PayloadRadData{payloadNumber}.pulsedata_a, PayloadRadData{payloadNumber}.pulsedata_b, RadDetectorTypes{payloadNumber});
     
     % Pulse Tail
+    fprintf('Finding Tails for payload %i...\n',payloadNumber);
     PayloadRadData{payloadNumber}.isTail = isTail(PayloadRadData{payloadNumber}.dcc_time,PayloadRadData{payloadNumber}.pulsedata_b);
     
     % Save Rad Data
