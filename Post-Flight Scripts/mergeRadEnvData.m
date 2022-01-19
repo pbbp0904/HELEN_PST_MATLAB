@@ -1,14 +1,14 @@
-function [mergedDataTables] = mergeRadEnvData(PayloadEnvDatastores, PayloadRadDatastores)
+function [mergedDataTables] = mergeRadEnvData(PayloadEnvDatastores, PayloadRadDatastores, DirectoryLocation)
 startingRADSecond = 9;
 
 
 disp('Merging Radiation and Environmental Data...')
-parfor i = 1:length(PayloadEnvDatastores)
+for i = 1:length(PayloadEnvDatastores)
     
-    PayloadRadDatastores{i}.SelectedVariableNames = {'pulseNum','subSecond','dcc_time','pps_time'};
-    PayloadEnvDatastores{i}.SelectedVariableNames = {'gpsTimes','xEast','yNorth','zUp'};
-    PayloadRadDatastores{i}.readSize = "file";
-    PayloadEnvDatastores{i}.readSize = "file";
+    PayloadRadDatastores{i}.SelectedVariableNames = {'pulse_num','subSecond','dcc_time','pps_time'};
+    PayloadEnvDatastores{i}.SelectedVariableNames = {'PacketNum','gpsTimes','xEast','yNorth','zUp'};
+    PayloadRadDatastores{i}.ReadSize = "file";
+    PayloadEnvDatastores{i}.ReadSize = "file";
     
     PayloadRadData{i} = read(PayloadRadDatastores{i});
     PayloadEnvData{i} = read(PayloadEnvDatastores{i});
