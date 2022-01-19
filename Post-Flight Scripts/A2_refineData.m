@@ -64,8 +64,14 @@ for payloadNumber = 1:length(PayloadRadData)
     % Pulse Pile Up
     PayloadRadData{payloadNumber}.PeakNumber = getPeakNumber(PayloadRadData{payloadNumber}.pulsedata_b);
     
+<<<<<<< HEAD
+    % Particle Type - Seth 
+    PayloadRadData{payloadNumber} = particleType(PayloadRadData{payloadNumber});
+
+=======
     % Particle Type - TBD
     
+>>>>>>> 948c4d3ad83198ed995396aeb77ee83007f86ffe
     % Energy - Sean
     [PayloadRadData{payloadNumber}.EPeakA, PayloadRadData{payloadNumber}.EPeakB, PayloadRadData{payloadNumber}.EIntA, PayloadRadData{payloadNumber}.EIntB] = getEnergies(PayloadRadData{payloadNumber}.pulsedata_a, PayloadRadData{payloadNumber}.pulsedata_b, RadDetectorTypes{payloadNumber});
     
