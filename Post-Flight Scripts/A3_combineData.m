@@ -17,14 +17,14 @@ PayloadRadDatastores = readRadFromDatastore(FlightFolder);
 %%
 
 % Merge environmental and radiation data
-fprintf('Merging Radiation and Environmental Data...')
+fprintf('Merging Radiation and Environmental Data...\n')
 mergedDataTables = mergeRadEnvData(PayloadEnvDatastores, PayloadRadDatastores, DirectoryLocation);
 
 % Merge all payload data together into one table
-fprintf('Merging All Payload Data...')
+fprintf('Merging All Payload Data...\n')
 FlightData = combinePayloadData(mergedDataTables);
 
+% Finalizing time
 
-FlightData = sortrows(FlightData,{'gpsTimes','subSeconds','PayloadNumber'});
 disp('Done Combining Data!')
 toc
