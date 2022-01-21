@@ -11,7 +11,7 @@ clear; clc; close all;
 FlightFolder = runFile();
 
 if isfolder(FlightFolder + '3-Processed Data') == 0
-mkdir(FlightFolder, '3-Processed Data');
+    mkdir(FlightFolder, '3-Processed Data');
 end
 
 DirectoryLocation = strcat(FlightFolder,"2-Data to Process");

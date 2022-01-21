@@ -2,7 +2,7 @@ function [mergedDataTables] = mergeRadEnvData(PayloadEnvDatastores, PayloadRadDa
 startingRADSecond = 9;
 
 
-disp('Merging Radiation and Environmental Data...')
+
 for i = 1:length(PayloadEnvDatastores)
     
     PayloadRadDatastores{i}.SelectedVariableNames = {'pulse_num','subSecond','dcc_time','pps_time'};
@@ -30,16 +30,18 @@ for i = 1:length(PayloadEnvDatastores)
         end
 
         EnvDataInterp = zeros(length(subSeconds),32);
-        interpVals = [2,3,4];
-        otherVals = [1];
+        interpVals = [3,4,5];
+        otherVals = [2];
 
+        % Interpolated values
         for m = interpVals
             x = PayloadEnvData{i}.PacketNum;
             v = table2array(PayloadEnvData{i}(:,m));
             xq = radSeconds+subSeconds';
             EnvDataInterp(:,m) = interp1(x,v,xq);
         end
-
+        
+        % Non-interpolated values
         for m = otherVals
             x = PayloadEnvData{i}.PacketNum;
             v = table2array(PayloadEnvData{i}(:,m));
@@ -47,20 +49,20 @@ for i = 1:length(PayloadEnvDatastores)
             EnvDataInterp(:,m) = interp1(x,v,xq);
         end
 
-        mergedDataTables{i}.gpsTimes = EnvDataInterp(:,20);
-        mergedDataTables{i}.subSeconds = subSeconds';
-        mergedDataTables{i}.gpsLats = EnvDataInterp(:,21);
-        mergedDataTables{i}.gpsLongs = EnvDataInterp(:,22);
-        mergedDataTables{i}.gpsAlts = EnvDataInterp(:,25);
+        mergedDataTables{i}.gpsTimes = EnvDataInterp(:,2);
+        mergedDataTables{i}.subSeconds = subSeconds;
+        mergedDataTables{i}.xEast = EnvDataInterp(:,3);
+        mergedDataTables{i}.yNorth = EnvDataInterp(:,4);
+        mergedDataTables{i}.ZUp = EnvDataInterp(:,5);
         mergedDataTables{i}.pulse_num = PayloadRadData{i}.pulse_num;
         fprintf('Done with %i\n', i);
     else
-        mergedDataTables{i}.gpsTimes = missing;
-        mergedDataTables{i}.subSeconds = missing;
-        mergedDataTables{i}.gpsLats = missing;
-        mergedDataTables{i}.gpsLongs = missing;
-        mergedDataTables{i}.gpsAlts = missing;
-        mergedDataTables{i}.pulse_num = missing;
+        mergedDataTables{i}.gpsTimes = NaN;
+        mergedDataTables{i}.subSeconds = NaN;
+        mergedDataTables{i}.gpsLats = NaN;
+        mergedDataTables{i}.gpsLongs = NaN;
+        mergedDataTables{i}.gpsAlts = NaN;
+        mergedDataTables{i}.pulse_num = NaN;
         fprintf('Not enough data for payload %i\n', i);
     end
 end

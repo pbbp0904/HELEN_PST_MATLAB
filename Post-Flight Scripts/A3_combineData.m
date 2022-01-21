@@ -10,17 +10,21 @@ FlightFolder = runFile();
 DirectoryLocation = strcat(FlightFolder,"4-Datastore\");
 tic
 
-PayloadEnvData = readEnvFromDatastore(FlightFolder);
-PayloadRadData = readRadFromDatastore(FlightFolder);
+PayloadEnvDatastores = readEnvFromDatastore(FlightFolder);
+PayloadRadDatastores = readRadFromDatastore(FlightFolder);
 
 
 %%
 
 % Merge environmental and radiation data
-mergedDataTables = mergeRadEnvData(PayloadEnvData, PayloadRadData, DirectoryLocation);
+fprintf('Merging Radiation and Environmental Data...')
+mergedDataTables = mergeRadEnvData(PayloadEnvDatastores, PayloadRadDatastores, DirectoryLocation);
 
 % Merge all payload data together into one table
+fprintf('Merging All Payload Data...')
 FlightData = combinePayloadData(mergedDataTables);
-FlightData = sortrows(FlightData,'gpsTimes');
+
+
+FlightData = sortrows(FlightData,{'gpsTimes','subSeconds','PayloadNumber'});
 disp('Done Combining Data!')
 toc

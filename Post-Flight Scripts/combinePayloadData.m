@@ -5,13 +5,22 @@ disp('Merging Payload Data...')
 FlightData = [];
 %FlightData = tall(FlightData);
 
-for i = 1:length(mergedDataTables)
-    fprintf('Merging Payload %i Data...\n',i)
-    if height(mergedDataTables{i}) > 1
-        mergedDataTables{i}.PayloadNumber = i*ones(height(mergedDataTables{i}),1);
-        FlightData = [FlightData; mergedDataTables{i}];
+for j = 1:length(mergedDataTables)
+    fprintf('Merging Payload %i Data...\n',j)
+    if ~isempty(FlightData)
+        if height(mergedDataTables{j}.gpsTimes) > 1
+            mergedDataTables{j}.PayloadNumber = j*ones(length(mergedDataTables{j}.gpsTimes),1);
+            FlightData = [FlightData; struct2table(mergedDataTables{j})];
+        else
+            fprintf('Not enough data for payload %i\n', j);
+        end
     else
-        fprintf('Not enough data for payload %i\n', i);
+        if height(mergedDataTables{j}.gpsTimes) > 1
+            mergedDataTables{j}.PayloadNumber = j*ones(length(mergedDataTables{j}.gpsTimes),1);
+            FlightData = struct2table(mergedDataTables{j});
+        else
+            fprintf('Not enough data for payload %i\n', j);
+        end
     end
 end
 
