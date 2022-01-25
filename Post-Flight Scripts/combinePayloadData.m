@@ -1,7 +1,5 @@
 function [FlightData] = combinePayloadData(mergedDataTables)
 
-disp('Merging Payload Data...')
-
 FlightData = [];
 %FlightData = tall(FlightData);
 
@@ -24,7 +22,7 @@ for j = 1:length(mergedDataTables)
     end
 end
 
-FlightData = sortrows(FlightData,{'gpsTimes'});
+FlightData = sortrows(FlightData,1);
 FlightData.time = round((FlightData.gpsTimes-FlightData.gpsTimes(1)).*(3600*24)) + round(FlightData.subSeconds,9);
 FlightData = movevars(FlightData,'time','Before','gpsTimes');
 FlightData = sortrows(FlightData,{'time','PayloadNumber'});

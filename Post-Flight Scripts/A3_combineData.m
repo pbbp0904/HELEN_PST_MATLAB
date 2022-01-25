@@ -21,7 +21,7 @@ fprintf('Merging Radiation and Environmental Data...\n')
 mergedDataTables = mergeRadEnvData(PayloadEnvDatastores, PayloadRadDatastores, DirectoryLocation);
 
 % Merge all payload data together into one table
-fprintf('Merging All Payload Data...\n')
+fprintf('Merging Payload Data...\n')
 FlightData = combinePayloadData(mergedDataTables);
 
 % Finalizing time
