@@ -22,11 +22,18 @@ for i = 1:length(PayloadEnvDatastores)
         radSeconds(1) = startingRADSecond;
 
         for j = 2:length(subSeconds)
-            if (dcc_time(j-1) < pps_time(j-1) && dcc_time(j) >= pps_time(j) && dcc_time(j) >= pps_time(j-1)) || (pps_time(j-1) == 0 && subSeconds(j-1)>subSeconds(j))
+            % Try 1
+%             if (dcc_time(j-1) < pps_time(j-1) && dcc_time(j) >= pps_time(j) && dcc_time(j) >= pps_time(j-1)) || (pps_time(j-1) == 0 && subSeconds(j-1)>subSeconds(j))
+%                 radSeconds(j) = radSeconds(j-1)+1;
+%             else
+%                 radSeconds(j) = radSeconds(j-1);
+%             end
+            if (subSeconds(j-1)>subSeconds(j))
                 radSeconds(j) = radSeconds(j-1)+1;
             else
                 radSeconds(j) = radSeconds(j-1);
             end
+
         end
 
         EnvDataInterp = zeros(length(subSeconds),32);
