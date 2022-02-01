@@ -18,3 +18,8 @@ net = trainNetwork(inputData,outputData,layers,options);
 modelDateTime = datestr(now,'dd-mmm-yyyy-HH-MM-SS');
 save(['trainedNet-' modelDateTime '-Data-' num2str(length(outputData)) ...
             '-Layers-' num2str(length(layers)) '.mat'],'net','options');
+
+YPred = classify(net,inputValidation, ...
+    MiniBatchSize=miniBatchSize);
+acc = mean(YPred == outputValidation)
+confusionchart(outputValidation,YPred);
