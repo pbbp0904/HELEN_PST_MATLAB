@@ -1,12 +1,17 @@
-%% A4 Todo
+%% A4 
 
-% Get number of counts for each time bin throughout the flight
-% Look for cross corelations of events between payloads
-% Stats
-% Graphs
+% (todo) Get number of counts for each time bin throughout the flight
+% (todo) Look for cross corelations of events between payloads
+% (todo) Stats
+% (todo) Graphs
 
 %%
 %
 
 
 
+getStats()
+makeGraphs()
+
+
+createReport(Stats,imagesPath)

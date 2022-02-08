@@ -1,7 +1,5 @@
-%% A3 Todo
+%% A3
 
-% Fix combining payload data slowness
-% Transition to datastores - Chris
 
 %%
 clear; clc; close all;

@@ -27,9 +27,9 @@ ti = [t1g, t2g, t3g, t4g];
 tid = [t1gd, t2gd, t3gd, t4gd];
 Ai = [A1g, A2g, A3g, A4g];
 Aid = [A1gd, A2gd, A3gd, A4gd];
-gammaGain = 1;
-gammaGainDiff = 1;
-gammaNoisePercentage = 6.63;
+gammaGain = 10;
+gammaGainDiff = 5;
+gammaNoisePercentage = 10;
 
 % Make gamma pulses
 gammaPulses = makePulses(t,n,ti,tid,Ai,Aid,gammaGain,gammaGainDiff,gammaNoisePercentage);
@@ -41,8 +41,8 @@ tid = [t1nd, t2nd, t3nd, t4nd];
 Ai = [A1n, A2n, A3n, A4n];
 Aid = [A1nd, A2nd, A3nd, A4nd];
 neutronGain = 1;
-neutronGainDiff = 1;
-neutronNoisePercentage = 3.64;
+neutronGainDiff = 0.5;
+neutronNoisePercentage = 5;
 
 % Make neutron pulses
 neutronPulses = makePulses(t,n,ti,tid,Ai,Aid,neutronGain,neutronGainDiff,neutronNoisePercentage);
@@ -106,7 +106,7 @@ function pulses = makePulses(t,n,ti,tid,Ai,Aid,gain,gainDiff,noisePercentage)
     pulses = pulses./max(pulses,[],1);
     
     % Find pulses completly outside range
-    outidx = min(pulses(4:32,:),[],1)==1;
+    outidx = sum(pulses(4:32,:)==1)>20;
     pulses(:,outidx) = [];
     
     % Recursively generate new pulses

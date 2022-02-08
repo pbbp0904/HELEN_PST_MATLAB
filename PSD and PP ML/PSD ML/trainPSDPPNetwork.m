@@ -1,9 +1,9 @@
 rng('default')
-load('PulseGeneration\easy.mat');
+load('PulseGeneration\hard.mat');
 addpath Networks\
 layers = try2();
-maxEpochs = 128;
-miniBatchSize = 128;
+maxEpochs = 1024;
+miniBatchSize = 64;
 gpuDevice(1);
 gpuDevice(2);
 disp('Done with setup. Beginning training...')

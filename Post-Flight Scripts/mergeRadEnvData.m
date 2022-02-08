@@ -19,19 +19,27 @@ for i = 1:length(PayloadEnvDatastores)
         pps_time = PayloadRadData{i}.pps_time;
 
         radSeconds = zeros(1,length(subSeconds));
-        radSeconds(1) = startingRADSecond;
 
-        for j = 2:length(subSeconds)
-            % Try 1
-%             if (dcc_time(j-1) < pps_time(j-1) && dcc_time(j) >= pps_time(j) && dcc_time(j) >= pps_time(j-1)) || (pps_time(j-1) == 0 && subSeconds(j-1)>subSeconds(j))
-%                 radSeconds(j) = radSeconds(j-1)+1;
-%             else
-%                 radSeconds(j) = radSeconds(j-1);
-%             end
-            if (subSeconds(j-1)>subSeconds(j))
-                radSeconds(j) = radSeconds(j-1)+1;
-            else
+        startingIndex = 1;
+        while isnan(subSeconds(startingIndex))
+            subSeconds(startingIndex) = NaN;
+            startingIndex = startingIndex + 1;
+        end
+        radSeconds(startingIndex) = startingRADSecond;
+        
+        NaNCounter = 0;
+        for j = startingIndex+1:length(subSeconds)
+            if isnan(subSeconds(j))
+                NaNCounter = NaNCounter + 1;
                 radSeconds(j) = radSeconds(j-1);
+            else
+                if (subSeconds(j-1-NaNCounter)>subSeconds(j)+0.1)
+                    radSeconds(j) = radSeconds(j-1)+1;
+                    NaNCounter = 0;
+                else
+                    radSeconds(j) = radSeconds(j-1);
+                    NaNCounter = 0;
+                end
             end
 
         end

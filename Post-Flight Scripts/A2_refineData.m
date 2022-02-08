@@ -1,8 +1,7 @@
-%% A2 Todo
+%% A2
 
-% Check for missed seconds
-% Fix sub second calculation - Seth is going through it
-% Try to speed up subSecond calculation
+% (todo) Check for missed seconds
+% (todo) Try to speed up subSecond calculation
 
 %%
 %FlightFolder = "D:/Flight Data/Testing/Database Test/";

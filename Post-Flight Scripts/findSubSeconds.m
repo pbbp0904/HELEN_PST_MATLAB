@@ -121,8 +121,8 @@ if length(pps_time)>1 && length(dcc_time)>1
 
     subSecond = mod(dcc_time - pps_timeCorrected,clockHz)./clockHz;
 else
-    pps_timeCorrected = missing;
-    subSecond = missing;
+    pps_timeCorrected = NaN;
+    subSecond = NaN;
 end
 
 

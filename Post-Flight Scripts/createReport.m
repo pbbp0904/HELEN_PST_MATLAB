@@ -1,4 +1,4 @@
-function createReport(Stats)
+function createReport(Stats,imagesPath)
 import mlreportgen.dom.*
 import mlreportgen.report.*
 ReportName = "HELEN_Data_Report.docx";
@@ -12,7 +12,7 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
         case 'BSNumber'
             append(rpt,BSNumber);
         case 'RandomDots'
-            append(rpt,Image(imagePathName));
+            append(rpt,Image(imagesPath));
         case 'Stats'
 
             t = rows2vars(struct2table(Stats));
