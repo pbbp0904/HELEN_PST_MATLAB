@@ -1,13 +1,14 @@
 function makeGraphs(FlightData, PayloadEnvData, PayloadRadData, PayloadPrefixes, PayloadColors, Stats, imagePath)
-
+%% Setup
 
 disp('Generating Graphs...')
-
 set(groot, 'DefaultFigureVisible', 'off')
 
-% Generate Induvidual Graphs
 
-% Environmental Graphs
+
+
+%% Environmental Graphs
+% Generate Induvidual Graphs
 
 for payload = 1:length(PayloadEnvData)
     envTime{payload} = PayloadEnvData{payload}.PacketNum/Stats.NUMBEROFPACKETS_PERSECOND(payload)/60/60;
@@ -25,7 +26,8 @@ for payload = 1:length(PayloadEnvData)
     axis equal
 end
 saveas(gcf, imagePath + "LATLONG" + ".png");
-    
+
+
 % Internal Temperatures vs. Time
 figure();
 sgtitle("Internal Temperatures")
@@ -37,7 +39,8 @@ for payload = 1:length(PayloadEnvData)
     ylabel('Temperature (C)');
 end
 saveas(gcf, imagePath + "TEMP_INTERNAL" + ".png");
-    
+
+
 % External Temperature vs. Time
 figure();
 sgtitle("External Temperatures")
@@ -49,7 +52,8 @@ for payload = 1:length(PayloadEnvData)
     ylabel('Temperature (C)');
 end
 saveas(gcf, imagePath + "TEMP_EXTERNAL" + ".png");
-    
+
+
 % Total Acceleration vs. Time
 figure();
 sgtitle("Total Acceleration")
@@ -61,7 +65,8 @@ for payload = 1:length(PayloadEnvData)
     ylabel('|Acceleration| (g)');
 end
 saveas(gcf, imagePath + "ACCELERATION_TOTAL" + ".png");
-    
+
+
 % Vertical Acceleration vs. Time
 figure();
 sgtitle("Vertical Acceleration")
@@ -73,7 +78,8 @@ for payload = 1:length(PayloadEnvData)
     ylabel('Acceleration (g)');
 end
 saveas(gcf, imagePath + "ACCELERATION_VERTICAL" + ".png");
-    
+
+
 % Horizontal Acceleration vs. Time
 figure();
 sgtitle("Horizontal Acceleration")
@@ -85,7 +91,8 @@ for payload = 1:length(PayloadEnvData)
     ylabel('|Acceleration| (g)');
 end
 saveas(gcf, imagePath + "ACCELERATION_HORIZONTAL" + ".png");
-    
+
+
 % GPS Altitude vs. Time
 figure();
 sgtitle("GPS Altitude")
@@ -99,10 +106,60 @@ end
 saveas(gcf, imagePath + "GPS_ALTITUDE" + ".png");
 
 
-fprintf('Done with %s\n', PayloadPrefixes{payload});
+
+
+% Generating Combined Graphs
+% GPS Plot (Combined)
+
+figure();
+hold on
+for payload = 1:length(PayloadEnvData)
+    plot(PayloadEnvData{payload}.gpsLongs, PayloadEnvData{payload}.gpsLats, 'Color', PayloadColors{payload});
+end
+hold off
+title('Combined GPS Plot');
+xlabel('Longitude (degrees)');
+ylabel('Latitude (degrees)');
+axis equal
+saveas(gcf, imagePath + "GPS_PLOT_COMBINED" + ".png");
+
+
+% Time Window Multipayload Plot
+minTimeOn = 10000000;
+maxTimeOff = 0;
+for payload = 1:length(PayloadEnvData)
+    if Stats.TIME_ON_SERIAL(payload) < minTimeOn
+        minTimeOn = Stats.TIME_ON_SERIAL(payload);
+    end
+    if Stats.TIME_OFF_SERIAL(payload) > maxTimeOff
+        maxTimeOff = Stats.TIME_OFF_SERIAL(payload);
+    end
+end
+dnv = floor(minTimeOn*24)/24:1/24:ceil(maxTimeOff*24)/24; % X-Axis Dates
+figure();
+hold on
+for payload = 1:length(PayloadEnvData)
+    try
+        plot([Stats.TIME_ON_SERIAL(payload) Stats.TIME_OFF_SERIAL(payload)], (length(PayloadEnvData)-payload+1)*[1 1], 'LineWidth', 10, 'Color', PayloadColors{payload});
+    catch
+    end
+end
+hold off
+grid
+set(gca, 'XTick', dnv);
+datetick('x', 'hh', 'keepticks');
+axis([xlim    0  length(PayloadEnvData)+1]);
+ytlblstr = sprintf('Payload %d\n', length(PayloadEnvData):-1:1);
+ytlbls = regexp(ytlblstr, '\n', 'split');
+set(gca, 'YTick',1:length(ytlbls), 'YTickLabel',ytlbls);
+title('Payload Operation Windows');
+xlabel('UTC Time (hours)');
+saveas(gcf, imagePath + "OPERATION_WINDOWS" + ".png");
+
+fprintf('Done with environmental plots.\n');
     
 
-
+%% Radiation Plots
 % 
 % for payload = 1:length(PayloadRadData)
 %     % Radiation Graphs
@@ -188,65 +245,16 @@ fprintf('Done with %s\n', PayloadPrefixes{payload});
 % end
 
 
-%try
-% Generating Combined Graphs
-% GPS Plot (Combined)
-figure();
-hold on
-for payload = 1:length(PayloadEnvData)
-    plot(PayloadEnvData{payload}.gpsLongs, PayloadEnvData{payload}.gpsLats, 'Color', PayloadColors{payload});
-end
-hold off
-title('Combined GPS Plot');
-xlabel('Longitude (degrees)');
-ylabel('Latitude (degrees)');
-axis equal
-saveas(gcf, imagePath + "GPS_PLOT_COMBINED" + ".png");
-
-% Time Window Multipayload Plot
-minTimeOn = 10000000;
-maxTimeOff = 0;
-for payload = 1:length(PayloadEnvData)
-    if Stats.TIME_ON_SERIAL(payload) < minTimeOn
-        minTimeOn = Stats.TIME_ON_SERIAL(payload);
-    end
-    if Stats.TIME_OFF_SERIAL(payload) > maxTimeOff
-        maxTimeOff = Stats.TIME_OFF_SERIAL(payload);
-    end
-end
 
 
-dnv = floor(minTimeOn*24)/24:1/24:ceil(maxTimeOff*24)/24;       % X-Axis Dates
-figure();
-hold on
-for payload = 1:length(PayloadEnvData)
-    try
-        plot([Stats.TIME_ON_SERIAL(payload) Stats.TIME_OFF_SERIAL(payload)], (length(PayloadEnvData)-payload+1)*[1 1], 'LineWidth', 10, 'Color', PayloadColors{payload});
-    catch
-    end
-end
-hold off
-grid
-set(gca, 'XTick', dnv);
-datetick('x', 'hh', 'keepticks');
-axis([xlim    0  length(PayloadEnvData)+1]);
-ytlblstr = sprintf('Payload %d\n', length(PayloadEnvData):-1:1);
-ytlbls = regexp(ytlblstr, '\n', 'split');
-set(gca, 'YTick',1:length(ytlbls), 'YTickLabel',ytlbls);
-title('Payload Operation Windows');
-xlabel('UTC Time (hours)');
-saveas(gcf, imagePath + "OPERATION_WINDOWS" + ".png");
 
+
+
+% Closeout
+fprintf('Done with making graphs!\n');
+close all
+delete(findall(groot, 'Type', 'figure', 'FileName', []));
 set(groot, 'DefaultFigureVisible', 'on')
-
-fprintf('Done with Combined\n');
-%catch
-    %fprintf('Failed to make combined graphs\n');
-%end
-
-
-%delete(findall(groot, 'Type', 'figure', 'FileName', []));
-%set(groot, 'DefaultFigureVisible', 'on')
 
 end
 
