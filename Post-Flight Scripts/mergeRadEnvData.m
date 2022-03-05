@@ -5,7 +5,7 @@ startingRADSecond = 9;
 
 for i = 1:length(PayloadEnvDatastores)
     
-    PayloadRadDatastores{i}.SelectedVariableNames = {'pulse_num','subSecond','dcc_time','pps_time'};
+    PayloadRadDatastores{i}.SelectedVariableNames = {'pulse_num','subSecond','dcc_time','pps_time','isTail','EPeakB'};
     PayloadEnvDatastores{i}.SelectedVariableNames = {'PacketNum','gpsTimes','xEast','yNorth','zUp'};
     PayloadRadDatastores{i}.ReadSize = "file";
     PayloadEnvDatastores{i}.ReadSize = "file";
@@ -70,6 +70,8 @@ for i = 1:length(PayloadEnvDatastores)
         mergedDataTables{i}.yNorth = EnvDataInterp(:,4);
         mergedDataTables{i}.ZUp = EnvDataInterp(:,5);
         mergedDataTables{i}.pulse_num = PayloadRadData{i}.pulse_num;
+        mergedDataTables{i}.isTail = PayloadRadData{i}.isTail;
+        mergedDataTables{i}.EPeakB = PayloadRadData{i}.EPeakB;
         fprintf('Done with %i\n', i);
     else
         mergedDataTables{i}.gpsTimes = NaN;

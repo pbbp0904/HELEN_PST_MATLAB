@@ -43,3 +43,5 @@ makeGraphs(FlightData, PayloadEnvData, PayloadRadData, PayloadPrefixes, PayloadC
 
 
 createReport(Stats,imagePath)
+
+toc

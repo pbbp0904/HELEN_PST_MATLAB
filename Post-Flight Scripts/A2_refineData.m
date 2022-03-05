@@ -65,8 +65,8 @@ for payloadNumber = 1:length(PayloadRadData)
     PayloadRadData{payloadNumber} = addMissedPulses(PayloadRadData{payloadNumber});
     
     % Pulse Pile Up
-    fprintf('Finding Pulse Pile Ups for payload %i...\n',payloadNumber);
-    PayloadRadData{payloadNumber}.PeakNumber = getPeakNumber(PayloadRadData{payloadNumber}.pulsedata_b);
+    %fprintf('Finding Pulse Pile Ups for payload %i...\n',payloadNumber);
+    %PayloadRadData{payloadNumber}.PeakNumber = getPeakNumber(PayloadRadData{payloadNumber}.pulsedata_b);
     
     % Particle Type - Seth 
     %fprintf('Finding Particle Type for payload %i...\n',payloadNumber);
