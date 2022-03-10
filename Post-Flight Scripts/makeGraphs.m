@@ -144,14 +144,17 @@ for payload = 1:length(PayloadEnvData)
     catch
     end
 end
-hold off
-grid
-set(gca, 'XTick', dnv);
-datetick('x', 'hh', 'keepticks');
-axis([xlim    0  length(PayloadEnvData)+1]);
-ytlblstr = sprintf('Payload %d\n', length(PayloadEnvData):-1:1);
-ytlbls = regexp(ytlblstr, '\n', 'split');
-set(gca, 'YTick',1:length(ytlbls), 'YTickLabel',ytlbls);
+try
+    hold off
+    grid
+    set(gca, 'XTick', dnv);
+    datetick('x', 'hh', 'keepticks');
+    axis([xlim    0  length(PayloadEnvData)+1]);
+    ytlblstr = sprintf('Payload %d\n', length(PayloadEnvData):-1:1);
+    ytlbls = regexp(ytlblstr, '\n', 'split');
+    set(gca, 'YTick',1:length(ytlbls), 'YTickLabel',ytlbls);
+catch
+end
 title('Payload Operation Windows');
 xlabel('UTC Time (hours)');
 saveas(gcf, imagePath + "OPERATION_WINDOWS" + ".png");
@@ -160,6 +163,92 @@ fprintf('Done with environmental plots.\n');
     
 
 %% Radiation Plots
+
+% Channel A
+for payload = 1:length(PayloadRadData)
+    figure();
+    F = FlightData(FlightData.PayloadNumber==payload,:);
+    b = F.EPeakA;
+    b = b(boolean(~F.isTail),:);
+    %b = b(b<7000,:);
+    b = b(1:end,:);
+    
+    
+    d = F.time;
+    d = d(boolean(~F.isTail),:);
+    %d = d(b<7000,:);
+    d = d(1:end,:);
+    b = b(d~=0,:);
+    d = d(d~=0,:);
+    
+    try
+        h=hist3([b,d],[round((max(b)-min(b))/5),round((max(d)-min(d)))],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
+        imagesc(0:max(d),min(b):max(b),h,'AlphaData',h)
+        colormap('jet')
+        set(gca, 'ColorScale', 'log')
+        set(gca,'YDir','normal')
+    
+        caxis([1, max(max(h))])
+    catch
+    end
+    h = colorbar;
+    view(2)
+
+    title(sprintf('Channel A Energy Waterfall for Payload %i',payload))
+    xlabel('Time (s)')
+    ylabel('Energy (bin)')
+    ylabel(h, 'Counts/bin') % Colorbar label
+
+    saveas(gcf, imagePath + "ENERGY_TIME_WATERFALL_A_" + num2str(payload) + ".png");
+end
+
+
+% Channel B
+for payload = 1:length(PayloadRadData)
+    figure();
+    F = FlightData(FlightData.PayloadNumber==payload,:);
+    b = F.EPeakB;
+    b = b(boolean(~F.isTail),:);
+    %b = b(b<3000,:);
+    b = b(1:end,:);
+    
+    
+    d = F.time;
+    d = d(boolean(~F.isTail),:);
+    %d = d(b<3000,:);
+    d = d(1:end,:);
+    b = b(d~=0,:);
+    d = d(d~=0,:);
+    
+    try
+        h=hist3([b,d],[round((max(b)-min(b))/5),round((max(d)-min(d)))],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
+        imagesc(0:max(d),min(b):max(b),h,'AlphaData',h)
+        colormap('jet')
+        set(gca, 'ColorScale', 'log')
+        set(gca,'YDir','normal')
+
+        caxis([1, max(max(h))])
+    catch
+    end
+    h = colorbar;
+    view(2)
+
+    title(sprintf('Channel B Energy Waterfall for Payload %i',payload))
+    xlabel('Time (s)')
+    ylabel('Energy (bin)')
+    ylabel(h, 'Counts/bin') % Colorbar label
+
+    saveas(gcf, imagePath + "ENERGY_TIME_WATERFALL_B_" + num2str(payload) + ".png");
+end
+
+
+
+
+
+
+
+
+
 % 
 % for payload = 1:length(PayloadRadData)
 %     % Radiation Graphs

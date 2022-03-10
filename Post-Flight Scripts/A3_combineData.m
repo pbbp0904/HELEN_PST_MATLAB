@@ -2,7 +2,7 @@
 
 
 %%
-clear; clc; close all;
+clear; close all;
 FlightFolder = runFile();
 
 DirectoryLocation = strcat(FlightFolder,"4-Datastore\");

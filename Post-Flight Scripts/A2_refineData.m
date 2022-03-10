@@ -74,7 +74,7 @@ for payloadNumber = 1:length(PayloadRadData)
     
     % Energy - Sean
     fprintf('Finding Energies for payload %i...\n',payloadNumber);
-    [PayloadRadData{payloadNumber}.EPeakA, PayloadRadData{payloadNumber}.EPeakB, PayloadRadData{payloadNumber}.EIntA, PayloadRadData{payloadNumber}.EIntB] = getEnergies(PayloadRadData{payloadNumber}.pulsedata_a, PayloadRadData{payloadNumber}.pulsedata_b, RadDetectorTypes{payloadNumber});
+    [PayloadRadData{payloadNumber}.EPeakA, PayloadRadData{payloadNumber}.EIntA, PayloadRadData{payloadNumber}.EPeakB, PayloadRadData{payloadNumber}.EIntB] = getEnergies(PayloadRadData{payloadNumber}.pulsedata_a, PayloadRadData{payloadNumber}.pulsedata_b, RadDetectorTypes{payloadNumber});
     
     % Pulse Tail
     fprintf('Finding Tails for payload %i...\n',payloadNumber);

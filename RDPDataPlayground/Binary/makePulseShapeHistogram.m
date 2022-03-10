@@ -1,8 +1,8 @@
 payloadNumber = 3;
 b = PayloadRadData{payloadNumber}.pulsedata_a;
 b = b(boolean(~PayloadRadData{payloadNumber}.isTail),:);
-b = b(max(abs(b'))<40000,:);
-b = b(max(abs(b'))>0,:);
+%b = b(max(abs(b'))<40000,:);
+%b = b(max(abs(b'))>2000,:);
 b = b(1:end,:);
 [~,I] = max(-b');
 m = max(-b')-min(-b');
