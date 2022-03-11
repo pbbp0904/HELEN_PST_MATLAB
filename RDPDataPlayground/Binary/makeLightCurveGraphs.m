@@ -1,29 +1,29 @@
-minHeight = 1700;
+minHeight = 0;
 maxHeight = 10000;
-t = 1;
-s = 100;
+t = 0.1;
+s = 1;
 figure()
 [lightCurve1,lightCurveReal1] = makeLightCurveEnergyFiltered(PayloadRadData{1}.dcc_time,PayloadRadData{1}.pulsedata_b,t,minHeight,maxHeight);
 plot(smooth(lightCurve1,s))
-xlim([0 15000/t])
+xlim([0 600/t])
 title(PayloadPrefixes{1})
 
 figure()
 [lightCurve2,lightCurveReal2] = makeLightCurveEnergyFiltered(PayloadRadData{2}.dcc_time,PayloadRadData{2}.pulsedata_b,t,0,maxHeight);
 plot(smooth(lightCurve2,s))
-xlim([0 15000/t])
+xlim([0 600/t])
 title(PayloadPrefixes{2})
 
 figure()
 [lightCurve3,lightCurveReal3] = makeLightCurveEnergyFiltered(PayloadRadData{3}.dcc_time,PayloadRadData{3}.pulsedata_b,t,minHeight,maxHeight);
 plot(smooth(lightCurve3,s))
-xlim([0 15000/t])
+xlim([0 600/t])
 title(PayloadPrefixes{3})
 
 figure()
 [lightCurve4,lightCurveReal4] = makeLightCurveEnergyFiltered(PayloadRadData{4}.dcc_time,PayloadRadData{4}.pulsedata_b,t,minHeight,maxHeight);
 plot(smooth(lightCurve4,s))
-xlim([0 15000/t])
+xlim([0 400/t])
 title(PayloadPrefixes{4})
 
 

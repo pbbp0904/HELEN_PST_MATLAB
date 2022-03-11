@@ -1,10 +1,10 @@
 %% CLYC
 X = PayloadRadData{2}.pulsedata_b;
 Xp = -X(PayloadRadData{2}.isTail==0,:);
-Xpp = Xp(500000:510000,:);
+Xpp = Xp(1:end,:);
 
 rng('default');
-[cidx, ctrs] = kmeans(Xpp,3,'dist','corr','rep',10,'disp','final');
+[cidx, ctrs] = kmeans(Xpp,2,'dist','corr','rep',10,'disp','final');
 figure
 for c = 1:4
 subplot(2,2,c);
@@ -18,7 +18,7 @@ sgtitle('K-Means Clustering of Profiles');
 %% LYSO
 X = PayloadRadData{3}.pulsedata_b;
 Xp = -X(PayloadRadData{3}.isTail==0,:);
-Xpp = Xp(500000:550000,:);
+Xpp = Xp(1:end,:);
 
 rng('default');
 [cidx, ctrs] = kmeans(Xpp,9,'dist','corr','rep',10,'disp','final');

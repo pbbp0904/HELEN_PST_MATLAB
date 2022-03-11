@@ -30,6 +30,11 @@ end
 if ~exist('PayloadRadData','var')
     fprintf('Loading Radiation Data...\n');
     load(strcat(DirectoryLocation,"PayloadRadData.mat"))
+    for payloadNumber = 1:length(PayloadRadData)
+        % Pulse Tail
+        fprintf('Finding Tails for payload %i...\n',payloadNumber);
+        PayloadRadData{payloadNumber}.isTail = isTail(PayloadRadData{payloadNumber}.dcc_time,PayloadRadData{payloadNumber}.pulsedata_b);
+    end
 end
 
 if ~exist('FlightData','var')
