@@ -24,8 +24,6 @@ end
 
 
 if removeTails
-
-
     peak_data = peak_data(tails==0);
     tail_data = tail_data(tails==0);
 end

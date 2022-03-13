@@ -24,7 +24,8 @@ d = d(d~=0,:);
 
 
 m = max(-b');
-h=hist3([m',d],[round((max(m)-min(m))/36),round((max(d)-min(d))/10)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
+h=hist3([m',d],[round((max(m)-min(m))/50),round((max(d)-min(d))/10)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
+h(h<2) = 0;
 imagesc(min(d):max(d),min(m):max(m),h,'AlphaData',h)
 colormap('jet')
 set(gca, 'ColorScale', 'log')
