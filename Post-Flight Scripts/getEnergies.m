@@ -5,7 +5,7 @@ function [EPeakA,EIntA,EPeakB,EIntB] = getEnergies(pulsedata_a,pulsedata_b,Decte
 DataStart = 4;
 Mult = 32 - DataStart + 1;
 
-if strcmp(DectectorType,"LYSO")
+if strcmp(DectectorType,"NONE")
 
     EPeakA = max(-pulsedata_a(:,DataStart:end),[],2) - min(-pulsedata_a(:,DataStart:end),[],2);
     EIntA = sum(-pulsedata_a(:,DataStart:end),2) - Mult * min(-pulsedata_a(:,DataStart:end),[],2);
