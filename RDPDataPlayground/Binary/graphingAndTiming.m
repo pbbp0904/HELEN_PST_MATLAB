@@ -13,7 +13,7 @@ end
 end
 
 % Plotting radiation data
-for i = [1:5,8,9]
+for i = [1:5,8]
 figure()
 t = tiledlayout(2,2);
 t.Padding = 'compact';

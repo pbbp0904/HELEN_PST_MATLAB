@@ -3,6 +3,28 @@
 % (todo) Get number of counts for each time bin throughout the flight
 % (todo) Look for cross corelations of events between payloads
 % (todo) Add radiation Graphs
+%% TODO
+% Add more graphs to data report
+
+%% Environmental graphs
+% Altitude Errors - gpsAltErrs
+% Longitude Errors - gpsLongErrs
+% Latitude Errors - gpsLatErrs
+% 
+% Sat Number - gpsSatNums
+% GPS Speed - gpsSpeeds
+
+
+%% Radiation graphs
+% Diff of pulse num
+% ppstime
+% ppscount
+
+
+%% More radiation graphs
+% Energy altitude graphs
+% PSD graph
+% Pulse shape histograms
 
 %%
 %
@@ -20,6 +42,7 @@ end
 DirectoryLocation = strcat(FlightFolder,"3-Processed Data/");
 DataLocation = strcat(FlightFolder,"5-FlightData/");
 imagePath = strcat(FlightFolder,"6-Graphs/");
+reportPath = strcat(FlightFolder,"7-Reports/");
 tic
 
 if ~exist('PayloadEnvData','var')
@@ -47,6 +70,6 @@ Stats = getStats(FlightData, PayloadEnvData, PayloadRadData, PayloadPrefixes);
 makeGraphs(FlightData, PayloadEnvData, PayloadRadData, PayloadPrefixes, PayloadColors, Stats, imagePath);
 
 
-createReport(Stats,imagePath)
+createReport(Stats,imagePath,reportPath)
 
 toc

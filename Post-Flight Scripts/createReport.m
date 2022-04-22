@@ -1,4 +1,4 @@
-function createReport(Stats,imagePath)
+function createReport(Stats,imagePath,reportPath)
 import mlreportgen.dom.*
 import mlreportgen.report.*
 ReportName = "HELEN_Data_Report.docx";
@@ -51,5 +51,7 @@ while ~strcmp(rpt.CurrentHoleId,'#end#')
 end
 
 close(rpt);
+
+copyfile(ReportName,strcat(reportPath,ReportName));
 
 end
