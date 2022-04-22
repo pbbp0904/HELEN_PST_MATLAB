@@ -1,17 +1,17 @@
 clc;    % Clear the command window.
 close all;  % Close all figures (except those of imtool.)
 imtool close all;  % Close all imtool figures.
-clear;  % Erase all existing variables.
+%clear;  % Erase all existing variables.
 fontSize = 14;
 
 
 %%%%%%%%%
-folder = 'D:\Flight Data\GroundTest3Data';
-filename = '2GREEN_CAM.mp4';
+folder = 'D:\Flight Data\Flight 4\2-Data to Process';
+filename = '4BLUE_CAM.mp4';
 movieFullFileName = fullfile(folder, filename);
 doVisual = 0;
-threshold = 0.02;
-startFrame = 2500;
+threshold = 10;
+startFrame = 9500;
 %%%%%%%%%
 
 

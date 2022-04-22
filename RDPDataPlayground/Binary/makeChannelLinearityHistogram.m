@@ -1,4 +1,4 @@
-payload = 1;
+payload = 4;
 figure();
 F = FlightData(FlightData.PayloadNumber==payload,:);
 b = F.EPeakA;

@@ -1,5 +1,7 @@
-FilePath = 'D:\Flight Data\Flight 2\2-Data to Process\2GREEN_EFM Raw Data\';
-FileName = '2GREEN_EFM';
+FlightFolder = runFile();
+SubFolder = '1-Raw Data\1RED_EFM Raw Data\';
+FilePath = strcat(FlightFolder,SubFolder);
+FileName = '1RED_EFM';
 FileExt  = '.TXT';
 
 A = importdata(strcat(FilePath,FileName,FileExt),'');

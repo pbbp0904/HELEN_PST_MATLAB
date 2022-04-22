@@ -11,7 +11,8 @@ if channel == 'A'
     peak_data = peak_data(max(-PayloadRadData{payloadNumber}.pulsedata_a(start:finish,:)')<8192);
     tail_data = tail_data(max(-PayloadRadData{payloadNumber}.pulsedata_a(start:finish,:)')<8192);
 
-    tails = PayloadRadData{payloadNumber}.isTail(max(-PayloadRadData{payloadNumber}.pulsedata_a(start:finish,:)')<8192);
+    tails = PayloadRadData{payloadNumber}.isTail(start:finish);
+    tails = tails(max(-PayloadRadData{payloadNumber}.pulsedata_a(start:finish,:)')<8192);
 else
     peak_data = mean(-PayloadRadData{payloadNumber}.pulsedata_b(start:finish,4:tailCutoff)')';
     tail_data = mean(-PayloadRadData{payloadNumber}.pulsedata_b(start:finish,tailCutoff+1:end)')';
@@ -19,7 +20,8 @@ else
     peak_data = peak_data(max(-PayloadRadData{payloadNumber}.pulsedata_b(start:finish,:)')<8192);
     tail_data = tail_data(max(-PayloadRadData{payloadNumber}.pulsedata_b(start:finish,:)')<8192);
 
-    tails = PayloadRadData{payloadNumber}.isTail(max(-PayloadRadData{payloadNumber}.pulsedata_b(start:finish,:)')<8192);
+    tails = PayloadRadData{payloadNumber}.isTail(start:finish);
+    tails = tails(max(-PayloadRadData{payloadNumber}.pulsedata_b(start:finish,:)')<8192);
 end
 
 

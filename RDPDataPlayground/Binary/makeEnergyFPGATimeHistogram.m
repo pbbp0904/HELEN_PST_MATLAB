@@ -1,5 +1,5 @@
-payloadNumber = 4;
-b = PayloadRadData{payloadNumber}.pulsedata_a;
+payloadNumber = 1;
+b = PayloadRadData{payloadNumber}.pulsedata_b;
 b = b(boolean(~PayloadRadData{payloadNumber}.isTail),:);
 bp = b;
 b = b(boolean(max(abs(b'))<8100),:);
@@ -24,7 +24,7 @@ d = d(d~=0,:);
 
 
 m = max(-b');
-h=hist3([m',d],[round((max(m)-min(m))/50),round((max(d)-min(d))/10)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
+h=hist3([m',d],[round((max(m)-min(m))/50),round((max(d)-min(d))/1)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
 h(h<2) = 0;
 imagesc(min(d):max(d),min(m):max(m),h,'AlphaData',h)
 colormap('jet')

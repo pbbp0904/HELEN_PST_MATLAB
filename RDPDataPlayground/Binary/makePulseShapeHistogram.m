@@ -1,4 +1,4 @@
-payloadNumber = 3;
+payloadNumber = 4;
 b = PayloadRadData{payloadNumber}.pulsedata_a;
 b = b(boolean(~PayloadRadData{payloadNumber}.isTail),:);
 %b = b(max(abs(b'))<40000,:);
