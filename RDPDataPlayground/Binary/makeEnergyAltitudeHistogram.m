@@ -1,4 +1,4 @@
-payload = 4;
+payload = 1;
 figure();
 F = FlightData(FlightData.PayloadNumber==payload,:);
 b = F.EPeakA;
@@ -9,12 +9,12 @@ b = b(b<8192,:);
 b = b(1:end,:);
 
 
-d = F.ZUp;
+d = F.gpsAlts;
 d = d(boolean(~F.isTail),:);
 d = d(bp<8192,:);
 d = d(1:end,:);
-b = b(d~=0,:);
-d = d(d~=0,:);
+b = b(d>=1000,:);
+d = d(d>=1000,:);
 
 try
     h=hist3([b,d],[round((max(b)-min(b))/50),round((max(d)-min(d))/50)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
@@ -29,7 +29,7 @@ end
 h = colorbar;
 view(2)
 
-title(sprintf('Channel A Energy Waterfall for Payload %i',payload))
+title(sprintf('Channel B Energy Waterfall for Payload %i',payload))
 xlabel('Altitude (m)')
 ylabel('Energy (bin)')
 ylabel(h, 'Counts/bin') % Colorbar label

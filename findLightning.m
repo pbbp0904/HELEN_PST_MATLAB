@@ -6,12 +6,12 @@ fontSize = 14;
 
 
 %%%%%%%%%
-folder = 'D:\Flight Data\Flight 4\2-Data to Process';
-filename = '4BLUE_CAM.mp4';
+folder = 'D:\Flight Data\Flight 5\2-Data to Process';
+filename = '2GREEN_CAM.mp4';
 movieFullFileName = fullfile(folder, filename);
 doVisual = 0;
 threshold = 10;
-startFrame = 9500;
+startFrame = 54300;
 %%%%%%%%%
 
 
@@ -80,7 +80,7 @@ if(mod(frame,1000)==0)
 end
 end
 
-save(strcat(folder,'\Proccessed Data\',filename(1:length(filename)-8),'_LightningFrames_',num2str(threshold),'.mat'),'lightningFrames','meanGrayLevels','videoObject','threshold')
+save(strcat(folder(1:end-17),'\3-Processed Data\',filename(1:length(filename)-8),'_LightningFrames_',num2str(threshold),'.mat'),'lightningFrames','meanGrayLevels','videoObject','threshold')
 finishedMessage = sprintf('Done!  Processed %d frames of "%s"\n', numberOfFrames, movieFullFileName);
 disp(finishedMessage); % Write to command window.
 uiwait(helpdlg(finishedMessage)); % Also pop up a message box.

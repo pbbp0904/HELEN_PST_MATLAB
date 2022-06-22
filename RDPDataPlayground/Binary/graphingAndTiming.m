@@ -47,5 +47,5 @@ end
 
 
 % Light curves
-[lightCurve,lightCurveReal] = makeLightCurveEnergyTailFiltered(PayloadRadData,2,0.1,0,8000);
+[lightCurve,lightCurveReal] = makeLightCurveEnergyTailFiltered(PayloadRadData,1,0.01,0,8000);
 plot(lightCurve)
