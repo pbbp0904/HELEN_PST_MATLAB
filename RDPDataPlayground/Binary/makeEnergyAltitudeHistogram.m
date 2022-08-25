@@ -1,7 +1,7 @@
-payload = 1;
+payload = 2;
 figure();
 F = FlightData(FlightData.PayloadNumber==payload,:);
-b = F.EPeakA;
+b = F.EPeakB;
 
 b = b(boolean(~F.isTail),:);
 bp = b;
@@ -13,11 +13,11 @@ d = F.gpsAlts;
 d = d(boolean(~F.isTail),:);
 d = d(bp<8192,:);
 d = d(1:end,:);
-b = b(d>=1000,:);
-d = d(d>=1000,:);
+b = b(d>=300,:);
+d = d(d>=300,:);
 
 try
-    h=hist3([b,d],[round((max(b)-min(b))/50),round((max(d)-min(d))/50)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
+    h=hist3([b,d],[round((max(b)-min(b))/20),round((max(d)-min(d))/20)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
     imagesc(min(d):max(d),min(b):max(b),h,'AlphaData',h)
     colormap('jet')
     set(gca, 'ColorScale', 'log')
@@ -26,7 +26,7 @@ try
     caxis([1, max(max(h))])
 catch
 end
-h = colorbar;
+colorbar;
 view(2)
 
 title(sprintf('Channel B Energy Waterfall for Payload %i',payload))

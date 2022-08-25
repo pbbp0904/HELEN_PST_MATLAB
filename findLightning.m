@@ -6,12 +6,12 @@ fontSize = 14;
 
 
 %%%%%%%%%
-folder = 'D:\Flight Data\Flight 5\2-Data to Process';
-filename = '2GREEN_CAM.mp4';
+folder = 'D:\Flight Data\Flight 6\2-Data to Process';
+filename = '3YELLOW_CAM.mp4';
 movieFullFileName = fullfile(folder, filename);
 doVisual = 0;
 threshold = 10;
-startFrame = 54300;
+startFrame = 1;
 %%%%%%%%%
 
 
@@ -33,17 +33,18 @@ end
 
 videoObject = VideoReader(movieFullFileName);
 % Determine how many frames there are.
-numberOfFrames = videoObject.NumberOfFrames;
+numberOfFrames = videoObject.NumFrames;
 
 % Prepare a figure to show the images and enlarge figure to full screen.
 if(doVisual)
-    figure;
+    figure();
     set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
 end
 
 % Make lightning frame array
 lightningFrames = [];
 lFrame = 1;
+meanGrayLevels = zeros(1,numberOfFrames);
 
 
 % Loop through the movie.

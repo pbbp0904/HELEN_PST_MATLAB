@@ -39,6 +39,10 @@ if isfolder(FlightFolder + '6-Graphs') == 0
     mkdir(FlightFolder, '6-Graphs');
 end
 
+if isfolder(FlightFolder + '7-Reports') == 0
+    mkdir(FlightFolder, '7-Reports');
+end
+
 DirectoryLocation = strcat(FlightFolder,"3-Processed Data/");
 DataLocation = strcat(FlightFolder,"5-FlightData/");
 imagePath = strcat(FlightFolder,"6-Graphs/");

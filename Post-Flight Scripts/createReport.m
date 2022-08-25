@@ -52,6 +52,6 @@ end
 
 close(rpt);
 
-copyfile(ReportName,strcat(reportPath,ReportName));
+copyfile(ReportName,reportPath);
 
 end
