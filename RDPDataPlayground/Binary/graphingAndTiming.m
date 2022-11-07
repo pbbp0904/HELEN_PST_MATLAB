@@ -26,7 +26,7 @@ end
 end
 
 %% Plotting timing data
-for i = 3
+for i = 1
     figure()
     hold on
     payload = i;

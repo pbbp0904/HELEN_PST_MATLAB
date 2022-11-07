@@ -1,5 +1,5 @@
 
-yourTitle = "Pulse Shape Discrimination (Flight 2: 07/17/2021, Payload 4, Channel B)";
+yourTitle = "Energy Waterfall (Flight 5: 06/17/2022, Payload 3 (CLYC), Channel A)";
 
 ax = gca;
 fig = gcf;
@@ -8,5 +8,5 @@ set(fig,'Color','k')
 ax.XColor = 'w';
 ax.YColor = 'w';
 fig.Children(1).Color = 'w';
-%title(yourTitle)
+title(yourTitle)
 set(ax.Title,'Color','w')

@@ -1,8 +1,8 @@
-payload = 4;
+payload = 2;
 maxE = 8100;
 figure();
 F = FlightData(FlightData.PayloadNumber==payload,:);
-b = F.EPeakB;
+b = F.EPeakA;
 
 b = b(boolean(~F.isTail),:);
 bp = b;
@@ -18,7 +18,7 @@ b = b(d~=0,:);
 d = d(d~=0,:);
 
 try
-    h=hist3([b,d],[round((max(b)-min(b))/10),round((max(d)-min(d))/10)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
+    h=hist3([b,d],[round((max(b)-min(b))/40),round((max(d)-min(d))/1)],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
     imagesc(0:max(d),min(b):max(b),h,'AlphaData',h)
     colormap('jet')
     set(gca, 'ColorScale', 'log')
