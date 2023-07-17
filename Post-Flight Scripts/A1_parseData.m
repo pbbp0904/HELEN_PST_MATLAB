@@ -2,7 +2,7 @@
 
 
 %%
-clear; clc; close all;
+clear; close all;
 %"D:/Flight Data/Testing/Database Test/";
 %"C:\Users\Sean\Desktop\UAH\SHC\HELEN\HELEN_Data\Flight 2\";
 %"D:\Flight Data\Flight 2\";

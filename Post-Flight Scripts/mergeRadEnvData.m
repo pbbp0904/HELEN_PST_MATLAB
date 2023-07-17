@@ -6,7 +6,7 @@ startingRADSecond = 9;
 for i = 1:length(PayloadEnvDatastores)
     
     PayloadRadDatastores{i}.SelectedVariableNames = {'pulse_num','subSecond','dcc_time','pps_time','isTail','EPeakA','EPeakB'};
-    PayloadEnvDatastores{i}.SelectedVariableNames = {'PacketNum','gpsTimes','xEast','yNorth','zUp'};
+    PayloadEnvDatastores{i}.SelectedVariableNames = {'PacketNum','gpsTimes','gpsLats','gpsLongs','gpsAlts'};
     PayloadRadDatastores{i}.ReadSize = "file";
     PayloadEnvDatastores{i}.ReadSize = "file";
     
@@ -66,9 +66,9 @@ for i = 1:length(PayloadEnvDatastores)
 
         mergedDataTables{i}.gpsTimes = EnvDataInterp(:,2);
         mergedDataTables{i}.subSeconds = subSeconds;
-        mergedDataTables{i}.xEast = EnvDataInterp(:,3);
-        mergedDataTables{i}.yNorth = EnvDataInterp(:,4);
-        mergedDataTables{i}.ZUp = EnvDataInterp(:,5);
+        mergedDataTables{i}.gpsLats = EnvDataInterp(:,3);
+        mergedDataTables{i}.gpsLongs = EnvDataInterp(:,4);
+        mergedDataTables{i}.gpsAlts = EnvDataInterp(:,5);
         mergedDataTables{i}.pulse_num = PayloadRadData{i}.pulse_num;
         mergedDataTables{i}.isTail = PayloadRadData{i}.isTail;
         mergedDataTables{i}.EPeakA = PayloadRadData{i}.EPeakA;
@@ -81,6 +81,9 @@ for i = 1:length(PayloadEnvDatastores)
         mergedDataTables{i}.gpsLongs = NaN;
         mergedDataTables{i}.gpsAlts = NaN;
         mergedDataTables{i}.pulse_num = NaN;
+        mergedDataTables{i}.isTail = NaN;
+        mergedDataTables{i}.EPeakA = NaN;
+        mergedDataTables{i}.EPeakB = NaN;
         fprintf('Not enough data for payload %i\n', i);
     end
 end

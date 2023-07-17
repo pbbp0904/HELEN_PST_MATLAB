@@ -1,17 +1,17 @@
 clc;    % Clear the command window.
 close all;  % Close all figures (except those of imtool.)
 imtool close all;  % Close all imtool figures.
-clear;  % Erase all existing variables.
+%clear;  % Erase all existing variables.
 fontSize = 14;
 
 
 %%%%%%%%%
-folder = 'D:\Flight Data\GroundTest3Data';
-filename = '2GREEN_CAM.mp4';
+folder = 'D:\Flight Data\Flight 6\2-Data to Process';
+filename = '3YELLOW_CAM.mp4';
 movieFullFileName = fullfile(folder, filename);
 doVisual = 0;
-threshold = 0.02;
-startFrame = 2500;
+threshold = 10;
+startFrame = 1;
 %%%%%%%%%
 
 
@@ -33,17 +33,18 @@ end
 
 videoObject = VideoReader(movieFullFileName);
 % Determine how many frames there are.
-numberOfFrames = videoObject.NumberOfFrames;
+numberOfFrames = videoObject.NumFrames;
 
 % Prepare a figure to show the images and enlarge figure to full screen.
 if(doVisual)
-    figure;
+    figure();
     set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
 end
 
 % Make lightning frame array
 lightningFrames = [];
 lFrame = 1;
+meanGrayLevels = zeros(1,numberOfFrames);
 
 
 % Loop through the movie.
@@ -80,7 +81,7 @@ if(mod(frame,1000)==0)
 end
 end
 
-save(strcat(folder,'\Proccessed Data\',filename(1:length(filename)-8),'_LightningFrames_',num2str(threshold),'.mat'),'lightningFrames','meanGrayLevels','videoObject','threshold')
+save(strcat(folder(1:end-17),'\3-Processed Data\',filename(1:length(filename)-8),'_LightningFrames_',num2str(threshold),'.mat'),'lightningFrames','meanGrayLevels','videoObject','threshold')
 finishedMessage = sprintf('Done!  Processed %d frames of "%s"\n', numberOfFrames, movieFullFileName);
 disp(finishedMessage); % Write to command window.
 uiwait(helpdlg(finishedMessage)); % Also pop up a message box.

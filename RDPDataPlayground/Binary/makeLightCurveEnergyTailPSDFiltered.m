@@ -1,6 +1,7 @@
-function [lightCurve,lightCurveReal] = makeLightCurveEnergyTailFiltered(PayloadRadData,payloadNumber,timeBinSize,minHeight,maxHeight)
+function [lightCurve,lightCurveReal] = makeLightCurveEnergyTailPSDFiltered(PayloadRadData,payloadNumber,timeBinSize,minHeight,maxHeight)
 
 dcc_time = PayloadRadData{payloadNumber}.dcc_time;
+pulsedata_a = PayloadRadData{payloadNumber}.pulsedata_a;
 pulsedata_b = PayloadRadData{payloadNumber}.pulsedata_b;
 isTail = PayloadRadData{payloadNumber}.isTail;
 
@@ -26,8 +27,10 @@ for i = 2:length(dcc_time)
     end
     if max(abs(pulsedata_b(i,:))) > minHeight && max(abs(pulsedata_b(i,:))) < maxHeight
         if ~isTail(i)
-            tempPulseData(j) = 1;
-            j = j + 1;
+            if (mean(-pulsedata_a(i,4:9)') > 1800 && mean(-pulsedata_a(i,4:9)') < 3300 && mean(-pulsedata_a(i,9:end)') > 1200 && mean(-pulsedata_a(i,9:end)') < 5000)
+                tempPulseData(j) = 1;
+                j = j + 1;
+            end
         end
     end
 end

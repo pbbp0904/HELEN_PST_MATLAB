@@ -1,17 +1,17 @@
-payload = 1;
+payload = 4;
 figure();
 F = FlightData(FlightData.PayloadNumber==payload,:);
 b = F.EPeakA;
 
 b = b(boolean(~F.isTail),:);
 bp = b;
-%b = b(b<8192,:);
+b = b(b<8192,:);
 b = b(1:end,:);
 
 
 d = F.EPeakB;
 d = d(boolean(~F.isTail),:);
-%d = d(bp<8192,:);
+d = d(bp<8192,:);
 d = d(1:end,:);
 b = b(d~=0,:);
 d = d(d~=0,:);

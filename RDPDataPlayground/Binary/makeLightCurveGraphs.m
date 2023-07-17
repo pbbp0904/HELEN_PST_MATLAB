@@ -1,6 +1,6 @@
 minHeight = 0;
 maxHeight = 10000;
-t = 0.1;
+t = 1;
 s = 1;
 figure()
 [lightCurve1,lightCurveReal1] = makeLightCurveEnergyFiltered(PayloadRadData{1}.dcc_time,PayloadRadData{1}.pulsedata_b,t,minHeight,maxHeight);
