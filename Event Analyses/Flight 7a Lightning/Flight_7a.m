@@ -1,7 +1,18 @@
 %%
-parseRawData()
+% parseRawData()
 
-%%
+%% Load Data
+% HELEN
+load('E:\Flight Data\Flight 7a\3-Processed Data\PayloadEnvData.mat')
+load('E:\Flight Data\Flight 7a\3-Processed Data\PayloadRadData.mat')
+load('E:\Flight Data\Flight 7a\3-Processed Data\PayloadCamData.mat')
+load('E:\Flight Data\Flight 7a\3-Processed Data\LMA\LMAData.mat');
+
+%LMA
+load('E:\Flight Data\Flight 7a\3-Processed Data\LMA\LMAData.mat')
+
+% GLM
+load('E:\Flight Data\Flight 7a\3-Processed Data\GLM\GLMData.mat');
 
 %% Plot Environmental Data
 % Plotting environmental data
@@ -33,25 +44,66 @@ parseRawData()
 figure('Color','white')
 dt = 0.001;
 lc = histcounts(PayloadRadData{4}.timeInterp,"NumBins",(dt)^(-1)*ceil(PayloadRadData{4}.timeInterp(end)),"BinLimits",[0 ceil(PayloadRadData{4}.timeInterp(end))]);
-plot(0:dt:(length(lc)*dt)-dt,lc,'k')
+plot(0:dt:(length(lc)*dt)-dt,smooth(lc,1),'k')
 hold on
 %plot(PayloadEnvData{4}.PacketNum,PayloadEnvData{4}.gpsAlts*20)
 %plot(PayloadEnvData{4}.PacketNum,(smooth(sqrt(PayloadEnvData{4}.AccX.^2+PayloadEnvData{4}.AccY.^2+PayloadEnvData{4}.AccZ.^2),1)-10)*10^4)
-camOffset = 99.2;
-plot(camOffset:1/30:(length(PayloadCamData{4}.meanGrayLevels)/30-1/30+camOffset), PayloadCamData{4}.meanGrayLevels,'b')
 
+
+%% Whole flight correlation with lightning
+origin = [34.6816045 -88.351260167 11913];
+lat_bounds = [34.5 34.72];
+long_bounds = [-88.63 -88.15];
+
+% GLM
+GLM_Data_Filtered = GLM_Data(GLM_Data.GLM_event_lat > lat_bounds(1) & GLM_Data.GLM_event_lat < lat_bounds(2) & GLM_Data.GLM_event_long > long_bounds(1) & GLM_Data.GLM_event_long < long_bounds(2),:);
+
+% LMA
+LMA_Data_Filtered = LMA_Data(LMA_Data.Latitude > lat_bounds(1) & LMA_Data.Latitude < lat_bounds(2) & LMA_Data.Longitude > long_bounds(1) & LMA_Data.Longitude < long_bounds(2),:);
+
+[xEast,yNorth,zUp] = latlon2local(LMA_Data_Filtered.Latitude,LMA_Data_Filtered.Longitude,LMA_Data_Filtered.Altitude,origin);
+LMA_Data_Filtered.Distance = 1./sqrt((xEast.^2+yNorth.^2+zUp.^2));
+
+% HELEN Light Curve
+figure('Color','white')
+plot(18428-2397:dt:18428-2397+(length(lc)*dt)-dt,lc,'k')
+ylabel('Counts per Millisecond')
+
+yyaxis right
+hold on
+scatter(LMA_Data_Filtered.Time,LMA_Data_Filtered.Power.*LMA_Data_Filtered.Distance*100000,'b','LineWidth',1)
+scatter(GLM_Data_Filtered.GLM_event_time,GLM_Data_Filtered.GLM_event_energy*3*10^15,'r','LineWidth',1)
+xlabel('Time (UTC Second of Day)')
+ylabel('LMA Lightning Power (dBW)')
+ylim([0 10^3])
+xlim([16000 19600])
+
+ax = gca;
+ax.YAxis(1).Color = 'k';
+ax.YAxis(2).Color = 'b';
+
+camOffset = 98.34+18428-2397;
+camTime = camOffset:1/30:(length(PayloadCamData{4}.meanGrayLevels)/30-1/30+camOffset);
+for i = 1:length(camTime)
+    camTime(i) = camTime(i) + 0.413*floor(i/9000);
+end
+
+plot(camTime, PayloadCamData{4}.meanGrayLevels,'Color',[0 1 0],'LineStyle','-','LineWidth',1)
+
+ax = gca;
+ax.XAxis.Exponent=0;
 
 %% First lightning strike
 figure('Color','white')
 dt = 0.0001;
-lc = histcounts(PayloadRadData{4}.timeInterp,"NumBins",round((dt)^(-1)*2),"BinLimits",[782 783]);
+lc = histcounts(PayloadRadData{4}.timeInterp,"NumBins",round((dt)^(-1)*2),"BinLimits",[782 784]);
 plot(0:dt:(length(lc)*dt)-dt,lc,'k')
 
 %% THE lightning strike
 figure('Color','white')
-dt = 0.001;
+dt = 0.0000001;
 lc = histcounts(PayloadRadData{4}.timeInterp,"NumBins",round((dt)^(-1)*2),"BinLimits",[2396 2398]);
-plot(0:dt:(length(lc)*dt)-dt,lc,'k')
+plot(0:dt:(length(lc)*dt)-dt,smooth(lc,100),'k')
 
 %% THE lightning strike
 figure('Color','white') % Sets the background color to white
@@ -195,7 +247,7 @@ radData1 = radData1(radData1.timeInterp < endTime,:);
 % radData1 = radData1(~radData1.isTail,:);
 
 payloadNumber = 4;
-b = radData1.pulsedata_b;
+b = radData1.pulsedata_a;
 m = max(-b,[],2);
 d = radData1.timeInterp;
 
@@ -265,7 +317,7 @@ mean_values = mean_values(idx, :);
 std_values = std_values(idx, :);
 
 % Create subplots for each cluster
-figure();
+figure('Color','white');
 for i = 1:k
     nexttile
     plot(representative_ts(i, :), 'LineWidth', 2);
@@ -279,9 +331,10 @@ for i = 1:k
     ylabel('Value');
 end
 
-%% PLotting light curve of clusters
+%% Plotting light curve of clusters
 % List of clusters to include in the light curve
-include_clusters = [22, 12, 7, 6, 1, 3, 15, 17, 19, 25, 8, 18];  % replace with your own list of clusters
+include_clusters = [22, 12, 7, 6, 1, 3, 15, 17, 19, 25, 8, 18];  % clusters
+%include_clusters = [22, 12, 7, 6, 1];  % more limited pulses
 % include_clusters = 1:25;
 
 % Create a logical index that is true for data points in the selected clusters
@@ -318,15 +371,16 @@ lc_ratio = lc_selected ./ (lc_energy + 1);
 % Plot the ratio
 plot(0:dt:(length(lc)*dt)-dt,lc_ratio,'k')
 ylim([0 1])  % the ratio is between 0 and 1
-xlabel('Time from 05:07:08 UTC (s)')
+xlabel('Time from 05:07:07 UTC (s)')
 ylabel('Ratio of selected pulses to total pulses')
 title('Pulse ratio in selected clusters')
 grid on
 
 % Apply the ratio to the lightcurve data
 lc_total = histcounts(PayloadRadData{4}.timeInterp,"NumBins",round((dt)^(-1)*2),"BinLimits",[2396 2398]);
-plot(0:dt:(length(lc)*dt)-dt,lc_ratio.*lc_total,'k')
-xlabel('Time from 05:07:08 UTC (s)')
+lc_actual = floor(lc_ratio.*lc_total);
+plot(0:dt:(length(lc)*dt)-dt,lc_actual,'k')
+xlabel('Time from 05:07:07 UTC (s)')
 ylabel('Count')
 title('Light Curve of Valid Pulses')
 grid on
@@ -363,7 +417,7 @@ set(gca,'FontSize',12)
 
 % Light Curves
 figure('Color','white')
-plot(18428-pm_seconds:dt:18428-pm_seconds+(length(lc)*dt)-dt,lc_ratio.*lc_total,'k')
+plot(18428-1:dt:18428-1+(length(lc)*dt)-dt,lc_actual,'k')
 ylabel('Counts per Millisecond')
 hold on
 yyaxis right
@@ -377,24 +431,25 @@ ax = gca;
 ax.YAxis(1).Color = 'k';
 ax.YAxis(2).Color = 'b';
 
-%% Load GLM Data
-filename = 'E:\Flight Data\Flight 7a\3-Processed Data\GLMData.nc';
-GLM_time_first = ncread(filename,'flash_time_offset_of_first_event');
-GLM_time_last = ncread(filename,'flash_time_offset_of_last_event');
-GLM_lat = ncread(filename,'flash_lat');
-GLM_long = ncread(filename,'flash_lon');
+%% GLM Flashes
+filename = 'E:\Flight Data\Flight 7a\3-Processed Data\GLM\GLMData.nc';
+GLM_flash_time_first = ncread(filename,'flash_time_offset_of_first_event');
+GLM_flash_time_last = ncread(filename,'flash_time_offset_of_last_event');
+GLM_flash_lat = ncread(filename,'flash_lat');
+GLM_flash_long = ncread(filename,'flash_lon');
+GLM_flash_energy = ncread(filename, 'flash_energy');
 
-GLM_time_first = double(typecast(int16(round((GLM_time_first+5)/0.00038148)),'uint16'))*0.00038148-5 + 18420 - 0.119369247108; % Convert properly and add 'seconds since 2023-06-19 05:07:00.000' offset, light travel time offset
-GLM_time_last = double(typecast(int16(round((GLM_time_last+5)/0.00038148)),'uint16'))*0.00038148-5 + 18420 - 0.119369247108; % Convert properly and add 'seconds since 2023-06-19 05:07:00.000' offset, light travel time offset
+GLM_flash_time_first = double(typecast(int16(round((GLM_flash_time_first+5)/0.00038148)),'uint16'))*0.00038148-5 + 18420; % Convert properly and add 'seconds since 2023-06-19 05:07:00.000' offset
+GLM_flash_time_last = double(typecast(int16(round((GLM_flash_time_last+5)/0.00038148)),'uint16'))*0.00038148-5 + 18420; % Convert properly and add 'seconds since 2023-06-19 05:07:00.000' offset
 
 figure('Color', 'white')
-plot(18428-pm_seconds:dt:18428-pm_seconds+(length(lc)*dt)-dt,lc_ratio.*lc_total,'k')
+plot(18428-1:dt:18428-1+(length(lc)*dt)-dt,lc_actual,'k')
 ylabel('Counts per Millisecond')
 hold on
 yyaxis right
-histogram(GLM_time_first(GLM_lat > 34 & GLM_lat < 35 & GLM_long > -89 & GLM_long < -88),1000,'FaceColor','b')
+histogram(GLM_flash_time_first(GLM_flash_lat > 34 & GLM_flash_lat < 35 & GLM_flash_long > -89 & GLM_flash_long < -88),1000,'FaceColor','b')
 hold on
-histogram(GLM_time_last(GLM_lat > 34 & GLM_lat < 35 & GLM_long > -89 & GLM_long < -88),1000,'FaceColor','r')
+histogram(GLM_flash_time_last(GLM_flash_lat > 34 & GLM_flash_lat < 35 & GLM_flash_long > -89 & GLM_flash_long < -88),1000,'FaceColor','r')
 
 
 xlim([18428-pm_seconds 18428+pm_seconds])
@@ -403,16 +458,179 @@ ax = gca;
 ax.YAxis(1).Color = 'k';
 ax.YAxis(2).Color = 'b';
 
-GLM_lat = GLM_lat(GLM_time > 18426 & GLM_time < 18430);
-GLM_long = GLM_long(GLM_time > 18426 & GLM_time < 18430);
+GLM_flash_lat_filtered = GLM_flash_lat(GLM_flash_time_first > 18428-pm_seconds & GLM_flash_time_first < 18428+pm_seconds);
+GLM_flash_long_filtered = GLM_flash_long(GLM_flash_time_first > 18428-pm_seconds & GLM_flash_time_first < 18428+pm_seconds);
+GLM_flash_energy_filtered = GLM_flash_energy(GLM_flash_time_first > 18428-pm_seconds & GLM_flash_time_first < 18428+pm_seconds);
+GLM_flash_energy_filtered2 = GLM_flash_energy(GLM_flash_lat > 34 & GLM_flash_lat < 35 & GLM_flash_long > -89 & GLM_flash_long < -88 & GLM_flash_time_first > 18428-1 & GLM_flash_time_first < 18428+1);
 
 figure('Color', 'white')
-scatter(GLM_long,GLM_lat)
+scatter(GLM_flash_long_filtered,GLM_flash_lat_filtered)
 ylim([34 35])
 xlim([-89 -88])
 hold on
 scatter(-88.3519,34.6812,'x')
 
+figure('Color','white')
+histogram(GLM_flash_energy_filtered,100)
+xline(GLM_flash_energy_filtered2)
+
+
+%% GLM events
+filename = 'E:\Flight Data\Flight 7a\3-Processed Data\GLM\GLMData.nc';
+GLM_event_time = ncread(filename,'event_time_offset');
+GLM_event_lat = ncread(filename,'event_lat');
+GLM_event_long = ncread(filename,'event_lon');
+GLM_event_energy = ncread(filename, 'event_energy');
+
+GLM_event_time = double(typecast(int16(round((GLM_event_time+5)/0.00038148)),'uint16'))*0.00038148-5 + 18420; % Convert properly and add 'seconds since 2023-06-19 05:07:00.000' offset
+GLM_event_lat = double(typecast(int16(round((GLM_event_lat+66.56)/0.0020313)),'uint16'))*0.0020313-66.56; % Convert properly
+GLM_event_long = double(typecast(int16(round((GLM_event_long+141.56)/0.0020313)),'uint16'))*0.0020313-141.56; % Convert properly
+GLM_event_energy = double(typecast(int16(round((GLM_event_energy-2.8515e-16)/(1.9024e-17))),'uint16'))*(1.9024e-17)+2.8515e-16; % Convert properly
+
+
+figure('Color', 'white')
+plot(18428-1:dt:18428-1+(length(lc)*dt)-dt,lc_actual,'k')
+ylabel('Counts per Millisecond')
+hold on
+yyaxis right
+scatter(GLM_event_time(GLM_event_lat > 34 & GLM_event_lat < 35 & GLM_event_long > -89 & GLM_event_long < -88),GLM_event_energy(GLM_event_lat > 34 & GLM_event_lat < 35 & GLM_event_long > -89 & GLM_event_long < -88))
+
+
+xlim([18428-pm_seconds 18428+pm_seconds])
+
+ax = gca;
+ax.YAxis(1).Color = 'k';
+ax.YAxis(2).Color = 'b';
+
+GLM_event_lat_filtered = GLM_event_lat(GLM_event_time > 18428-pm_seconds & GLM_event_time < 18428+pm_seconds);
+GLM_event_long_filtered = GLM_event_long(GLM_event_time > 18428-pm_seconds & GLM_event_time < 18428+pm_seconds);
+GLM_event_energy_filtered = GLM_event_energy(GLM_event_time > 18428-pm_seconds & GLM_event_time < 18428+pm_seconds);
+GLM_event_energy_filtered2 = GLM_event_energy(GLM_event_lat > 34 & GLM_event_lat < 35 & GLM_event_long > -89 & GLM_event_long < -88 & GLM_event_time > 18428-1 & GLM_event_time < 18428+1);
+
+figure('Color', 'white')
+scatter(GLM_event_long_filtered,GLM_event_lat_filtered)
+ylim([34 35])
+xlim([-89 -88])
+hold on
+scatter(-88.3519,34.6812,'x')
+
+figure('Color','white')
+histogram(GLM_event_energy_filtered,100)
+xline(GLM_event_energy_filtered2)
+
+
+%% Everything on One Plot
+figure('Color', 'white')
+plot(18428-1:dt:18428-1+(length(lc)*dt)-dt,lc_actual,'k')
+%plot(18428-1:dt:18428-1+(length(lc)*dt)-dt,lc_total,'k')
+ylabel('Counts per Millisecond')
+hold on
+yyaxis right
+scatter(LMA_Data_Filtered.Time,LMA_Data_Filtered.Power,'b', 'LineWidth',2)
+scatter(GLM_event_time(GLM_event_lat > 34 & GLM_event_lat < 35 & GLM_event_long > -89 & GLM_event_long < -88),2*10^14*GLM_event_energy(GLM_event_lat > 34 & GLM_event_lat < 35 & GLM_event_long > -89 & GLM_event_long < -88), 'r', 'LineWidth',2)
+xlim([18428-pm_seconds 18428+pm_seconds])
+xlabel('Time (UTC Second of Day)')
+ylabel('Lightning Energy (arb.)')
+legend('HELEN Radiation','LMA Events','GLM Events','Location','northeast')
+
+ax = gca;
+ax.YAxis(1).Color = 'k';
+ax.YAxis(2).Color = [1 0 1];
+ax.XAxis.Exponent = 0;
+xtickformat('%.1f')
+
+
+%% Waterfall/Spectrum
+pulse_data_water = radData1.pulsedata_b;
+pulse_data_water = pulse_data_water(idx,4:end);
+b = pulse_data_water;
+m_lightning = max(-b,[],2);
+kev_c = 1400/700;
+kev_off = 150;
+m_lightning = abs(m_lightning*kev_c-kev_off); % convert to kev
+d = selected_times;
+
+figure('Color','white')
+h=hist3([m_lightning,d],[100,2/0.01],'EdgeColor','none','CDataMode','auto','FaceColor','interp');
+imagesc(min(d):max(d)+1,min(m_lightning):max(m_lightning),h,'AlphaData',h)
+colormap('jet')
+set(gca,'YDir','normal')
+ylim([0 6000])
+title('10ms Bins')
+colorbar
+view(2)
+
+
+kev_perbin = 8;
+binNum = 8192/kev_perbin*kev_c;
+
+figure('Color','white')
+plotxlim = [0 2500];
+
+subplot(2,2,2)
+normal_spectrum = histcounts(m_lightning(selected_times < 2396.5 | selected_times > 2397.5),"NumBins",binNum,"BinLimits",[0 8192*kev_c]);
+lightning_spectrum = histcounts(m_lightning(selected_times > 2396.5 & selected_times < 2397.5),"NumBins",binNum,"BinLimits",[0 8192*kev_c]);
+%plot((0:binNum-1)*kev_c*8192/binNum,smooth(lightning_spectrum,1)/(8192/binNum),'k','LineWidth',1)
+scatter((0:binNum-1)*kev_c*8192/binNum,smooth(lightning_spectrum,1)/(8192/binNum),'k','+','LineWidth',0.75,'SizeData',20)
+xlim(plotxlim)
+%set(gca,'Xscale','log')
+%set(gca,'Yscale','log')
+grid on
+title("Spectrum During Lightning Strike")
+xlabel("Energy (keV)")
+ylabel("Counts per keV per Second")
+
+subplot(2,2,1)
+radData_spectrum = radData(~isnan(radData.time),:);
+m = abs(max(-radData_spectrum.pulsedata_b(radData_spectrum.timeInterp > 0 & radData_spectrum.timeInterp < 2340,4:end),[],2)*kev_c-kev_off);
+normal_spectrum_full = histcounts(m,"NumBins",binNum,"BinLimits",[0 8192*kev_c]);
+plot((0:binNum-1)*kev_c*8192/binNum,smooth(normal_spectrum_full,1)/2340/(8192/binNum),'k','LineWidth',1)
+xlim(plotxlim)
+grid on
+title("Nominal LYSO Spectrum")
+xlabel("Energy (keV)")
+ylabel("Counts per keV per Second")
+
+subplot(2,2,[3,4])
+lightning_spectrum_binned = histcounts(m_lightning(selected_times > 2396.5 & selected_times < 2397.5),"NumBins",binNum,"BinLimits",[0 8192*kev_c]);
+%plot((0:binNum-1)*kev_c*8192/binNum,smooth(lightning_spectrum_binned,1)/(8192/binNum)-smooth(normal_spectrum_full,1)/2340/(8192/binNum),'k','LineWidth',1)
+scatter((0:binNum-1)*kev_c*8192/binNum,smooth(lightning_spectrum_binned,1)/(8192/binNum)-smooth(normal_spectrum_full,1)/2340/(8192/binNum)/2,'k','+','LineWidth',0.75,'SizeData',20)
+xlim(plotxlim)
+ylim([0 15])
+%set(gca,'Xscale','log')
+%set(gca,'Yscale','log')
+grid on
+title("Lightning Spectrum with LYSO Background Subtracted")
+xlabel("Energy (keV)")
+ylabel("Counts per keV per Second")
+
+% creating the zoom-in inset
+% ax=axes;
+% set(ax,'units','normalized','position',[0.5,0.2,0.2,0.2])
+% box(ax,'on')
+% scatter((0:binNum-1)*kev_c*8192/binNum,smooth(lightning_spectrum_binned,1)/(8192/binNum)-smooth(normal_spectrum_full,1)/2340/(8192/binNum),'k','+','LineWidth',0.75,'SizeData',25)
+% set(ax,'xlim',[400 600],'ylim',[0 10])
+% grid on
+
+
+%%
+radData = PayloadRadData{4};
+radData1 = radData(~isnan(radData.time),:);
+radData1 = radData1(radData1.timeInterp > 0,:);
+radData1 = radData1(radData1.timeInterp < 30000,:);
+% radData1 = radData1(var(radData1.pulsedata_b(:,4:end),0,2) > 1000,:);
+% radData1 = radData1(max(-radData1.pulsedata_b(:,4:end),[],2) > 400,:);
+% radData1 = radData1(mean(-radData1.pulsedata_b(:,4:end),2) > 100,:);
+% radData1 = radData1(mean(-radData1.pulsedata_b(:,4:end),2) < 1200,:);
+% radData1 = radData1(max(abs(diff(radData1.pulsedata_b(:,4:end),1,2)),[],2) < 1000,:);
+% radData1 = radData1(max(-radData1.pulsedata_b(:,4:9),[],2) > 1.2*max(abs(-radData1.pulsedata_b(:,20:end)),[],2),:);
+% radData1 = radData1(mean(-radData1.pulsedata_b(:,4:5),2) < 800,:);
+% radData1 = radData1(-radData1.pulsedata_b(:,4) < -radData1.pulsedata_b(:,5) & -radData1.pulsedata_b(:,5) < -radData1.pulsedata_b(:,6),:);
+% radData1 = radData1(~radData1.isTail,:);
+
+figure('Color','white')
+scatter(radData1.timeInterp,max(-radData1.pulsedata_b,[],2),'filled','SizeData',10,'CData',[zeros(length(radData1.isTail),1)  zeros(length(radData1.isTail),1) mean(-radData1.pulsedata_b(:,20:end),2)./max(-radData1.pulsedata_b,[],2)])
+ylim([0 3500])
 
 %% PSD Plot
 

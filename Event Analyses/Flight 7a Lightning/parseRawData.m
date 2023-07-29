@@ -1,7 +1,7 @@
 %function parseRawData()
 
 %clear; clc; close all;
-FlightFolder = "D:\Flight 7a\";
+FlightFolder = "E:\Flight Data\Flight 7a\";
 
 if isfolder(FlightFolder + '3-Processed Data') == 0
     mkdir(FlightFolder, '3-Processed Data');
@@ -20,7 +20,7 @@ CamThreshold = 1;
 
 %%
 
-parseEnv = 0; parseRad = 0; parseCam = 1;
+parseEnv = 0; parseRad = 1; parseCam = 0;
 
 PayloadEnvData = {};
 PayloadRadData = {};

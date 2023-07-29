@@ -3,6 +3,10 @@ function [pps_timeCorrected, subSecond] = findSubSeconds7a(pps_time, dcc_time)
 %   Detailed explanation goes here
 
 clockHz = 50000000;
+% Add half second offset to make timing easier
+pps_time = mod(pps_time + clockHz/2,clockHz);
+pps_time(pps_time==clockHz/2) = 0;
+dcc_time = mod(dcc_time + clockHz/2,clockHz);
 
 if length(pps_time)>1 && length(dcc_time)>1
     % Make new corrected pps_time
@@ -42,7 +46,6 @@ if length(pps_time)>1 && length(dcc_time)>1
         end
 
 
-
         % Project initial clock drift back to start
         s = 1;
         startSubSecTime = clockHz - pps_time(GPSLockIndex);
@@ -65,7 +68,14 @@ if length(pps_time)>1 && length(dcc_time)>1
             pps_timeCorrected(j) = round(pps_time(GPSLockIndex) - deltaPPS);
         end
 
+        % Find clock drifts for whole flight
+        % Take difference of values
+        dpps = diff(pps_time(1:length(pps_time)));
+        clockChangeMedian = -782;
 
+        % Get pps changes that are "close" to the median
+        outlierChangeThreshold = 300;
+        clockChangeIndicies = find(abs(dpps-clockChangeMedian)<outlierChangeThreshold&dpps~=0);
         
         % Interpolate times inbetween pps pulses
         k = 1;
@@ -78,7 +88,7 @@ if length(pps_time)>1 && length(dcc_time)>1
             m = k + 1;
             ppsChangeValid = 0;
             while(~ppsChangeValid && m<=length(clockChangeIndicies))
-                if abs(dpps(clockChangeIndicies(m)) - dpps(clockChangeIndicies(k))) < round(5+(m-k)/5)
+                if abs(dpps(clockChangeIndicies(m)) - dpps(clockChangeIndicies(k))) < round(10+(m-k)/10)
 
                     interpEndIndex = clockChangeIndicies(m)+1;
                     ppsChangeValid = 1;
@@ -120,6 +130,9 @@ if length(pps_time)>1 && length(dcc_time)>1
     end
 
     subSecond = mod(dcc_time - pps_timeCorrected,clockHz)./clockHz;
+
+    % Subtract back half second offset
+    pps_timeCorrected = mod(pps_timeCorrected - clockHz/2,clockHz);
 else
     pps_timeCorrected = NaN;
     subSecond = NaN;
